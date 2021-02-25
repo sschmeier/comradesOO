@@ -1,6 +1,6 @@
 Package: comradesOO
 Type: Package
-Title: Analsis of COMRADES data for RNA structure prediction
+Title: Analysis of COMRADES data for RNA structure prediction
 Version: 0.0.0.9000
 Author: Jonathan Price
 Maintainer: Jonathan Price <jlp76@cam.ac.uk>
@@ -9,7 +9,7 @@ Description: Analsis of COMRADES data for RNA structure prediction. Currently
 License: GPL-3 + file LISENCE
 Encoding: UTF-8
 LazyData: true
-collate:
+BugReports: https://github.com/JLP-BioInf/comradesOO/issues
 Imports:
     ggplot2,
     reshape2,

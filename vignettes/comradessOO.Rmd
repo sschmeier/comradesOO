@@ -6,6 +6,8 @@ output:
   prettydoc::html_pretty:
     theme: architect
     highlight: vignette
+    toc: true
+    toc_depth: 2
 vignette: >
   %\VignetteIndexEntry{comradessOO}
   %\VignetteEngine{knitr::rmarkdown}
@@ -35,20 +37,29 @@ Volume 80
 
 ![Figure from Ziv et al., 2020. Virus-inoculated cells are crosslinked using clickable psoralen. Viral RNA is pulled down from the cell lysate using an array of biotinylated DNA probes, following digestion of the DNA probes and fragmentation of the RNA. Biotin is attached to crosslinked RNA duplexes via click chemistry, enabling pulling down crosslinked RNA using streptavidin beads. Half of the RNA duplexes are proximity-ligated, following reversal of the crosslinking to enable sequencing. The other half serves as a control, in which crosslink reversal proceeds the proximity ligation](comradesProtocol.jpg){width=100%}
 
-
-* figures of how comrades works
-* an explanation of the data
+After sequencing, short reads are produced where one half of the read corresponds to one half of an RNA duplex and the other half of the reads corresponds to the other half of the RNA duplex. This package has been designed to analyse this data. The short reads need to be processed is a specific way, see the next section. 
 
 # COMRADES data pre-processing
 
-* The data pre-processing steps (figure)
+* Cutadapt (parameters: )
+
+    https://cutadapt.readthedocs.io/en/stable/
+* 2 Pear (parameters: )
+
+    https://cme.h-its.org/exelixis/web/software/pear/
+* 3 UMI Removal (parameters: )
+
+    https://readthedocs.org/projects/umi-tools/downloads/pdf/stable/
+* 4 Hyb (parameters: )
+
+    https://github.com/gkudla/hyb
 
 # comradesOO Package
 
 * figures of what the package does  - clustering - folding 
-* links to each of the classes as we go. 
-* explanation of the way the analysis is stored 
-* methods for producing different analysis and results
+* links to each of the classes 
+* explanation of slots 
+* methods
 
 
 # 3 classes
@@ -56,12 +67,15 @@ Volume 80
 explanation of the 3 classes linked to explanation above 
 
 ## comradesDataSet
+
 detailed explanation of the class with slots etc
 
 ## comradesClusteredDataSet
+
 detailed explanation of the class with slots etc
 
 ## comradesFoldedDataSet
+
 detailed explanation of the class with slots etc
 
 # Standard Workflow

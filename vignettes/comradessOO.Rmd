@@ -62,9 +62,24 @@ After sequencing, short reads are produced where one half of the read correspond
 * methods
 
 
+## Prerequisits 
+
+* A number of R libraries
+* The vienna Packagae (if performing folding)
+
+## Inputs
+
+* Sample Table
+* Hyb output files
+* RNA of interest (as annotated in the Hyb output files)
+* RNA length
+* RNA Sequence (if performing folding)
+
+
+
 # 3 classes
 
-explanation of the 3 classes linked to explanation above 
+The package revolves around 3 connected objects. 
 
 ## comradesDataSet
 

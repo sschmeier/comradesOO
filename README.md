@@ -31,13 +31,6 @@ After sequencing, short reads are produced where one half of the read correspond
 
     https://github.com/gkudla/hyb
 
-# comradesOO Package
-
-* figures of what the package does  - clustering - folding 
-* links to each of the classes 
-* explanation of slots 
-* methods
-
 
 ## Prerequisits 
 
@@ -52,6 +45,14 @@ After sequencing, short reads are produced where one half of the read correspond
 * RNA length
 * RNA Sequence (if performing folding)
 
+
+
+# comradesOO Package
+
+* figures of what the package does  - clustering - folding 
+* links to each of the classes 
+* explanation of slots 
+* methods
 
 
 # 3 classes

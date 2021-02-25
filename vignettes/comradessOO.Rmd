@@ -21,6 +21,7 @@ knitr::opts_chunk$set(
 
 # COMRADES experiment
 
+
 The COMRADES experimental protocol for the prediction of RNA structure in vivo was first published in 2018 (Ziv et al., 2019) where they predicted the structure of the Zika virus. The protocol has subsequently been use to predict the structure of SARS-CoV-2 (Ziv et al., 2020).
 
 To gain a better understanding of the protocol see:

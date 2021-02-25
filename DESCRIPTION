@@ -1,0 +1,37 @@
+Package: comradesOO
+Type: Package
+Title: Analsis of COMRADES data for RNA structure prediction
+Version: 0.0.0.9000
+Author: Jonathan Price
+Maintainer: Jonathan Price <jlp76@cam.ac.uk>
+Description: Analsis of COMRADES data for RNA structure prediction. Currently 
+    accepts the output from the program Hyb. 
+License: GPL-3 + file LISENCE
+Encoding: UTF-8
+LazyData: true
+collate:
+Imports:
+    ggplot2,
+    reshape2,
+    GenomicRanges,
+    igraph,
+    heatmap3,
+    MASS,
+    mixtools,
+    RColorBrewer,
+    foreach,
+    doParallel,
+    R4RNA
+RoxygenNote: 7.1.1
+Collate: 
+    'comradesOO.R'
+    'comradesDataSet.R'
+    'comradesClusteredDataSet.R'
+    'comradesFoldedDataSet.R'
+    'methods.R'
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+VignetteBuilder: knitr
+Config/testthat/edition: 3

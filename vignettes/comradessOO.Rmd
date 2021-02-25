@@ -1,0 +1,52 @@
+---
+title: "comradessOO"
+author: Jonathan Price
+date: "`r.Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{comradessOO}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# COMRADES experiment
+
+* link to papers
+* figures of how comrades works
+* an explanation of the data
+
+# COMRADES data pre-processing
+
+* The data pre-processing steps (figure)
+
+# comradesOO Package
+
+* figures of what the package does  - clustering - folding 
+* links to each of the classes as we go. 
+* explanation of the way the analysis is stored 
+* methods for producing different analysis and results
+
+
+# 3 classes
+
+explanation of the 3 classes linked to explanation above 
+
+## comradesDataSet
+detailed explanation of the class with slots etc
+
+## comradesClusteredDataSet
+detailed explanation of the class with slots etc
+
+## comradesFoldedDataSet
+detailed explanation of the class with slots etc
+
+# Standard Workflow
+
+code for a standard workflow. 

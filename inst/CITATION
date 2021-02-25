@@ -1,0 +1,16 @@
+citHeader("To cite comradesOO for publication use:")
+
+citEntry(entry = "Article",
+    title = "The Short- and Long-Range RNA-RNA Interactome of SARS-CoV-2",
+    author = personList(as.person(""),
+                        as.person(""),
+                        as.person(""),
+                        as.person(""),
+                        as.person("") ),
+    journal = "Molecular Cell",
+    year = "2020",
+    volume = "80",
+    number = "6",
+    pages = "1067-1077"
+)
+

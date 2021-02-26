@@ -476,3 +476,37 @@ addCluster = function(granges, indexes, prev, cluster, type){
     prev= c(prev, x)
 }
 
+
+
+
+
+
+
+
+#' Subset a list of hyb files
+#'
+#' Function used to subset a list of hyb data created by readHybFiles
+#' This function produces the same size list as before but 
+#' it returns ONLY the rna of interest and also
+#' Choose duplexes where the nt difference in position between the
+#' one side and other side of an interaction is between min and max
+#' @param hybList the original hybList created with readHybFiles
+#' @param min the rna of interest that you want to subset
+#' @param max The number of randomly subsetted chimeric reads you need
+#' @param length The number of randomly subsetted chimeric reads you need
+#' @return A list of subsetted hyb files
+#' @examples
+#' hybListSubset <- subsetHybList(hybList, "myRNA" ,  10000);
+#' @export
+subsetHybList2 = function(hybList, min, max, length){
+    longDistHyb = list()
+    for (i in 1:length(hybList)){
+        hybList[[i]]$dist = hybList[[i]]$V13 -  hybList[[i]]$V8
+        longDistHyb[[i]] = hybList[[i]][hybList[[i]]$dist < max & hybList[[i]]$dist >= min,]
+        leftLength = longDistHyb[[i]]$V6 - longDistHyb[[i]]$V5
+        rightLength = longDistHyb[[i]]$V12 - longDistHyb[[i]]$V11
+        longDistHyb[[i]] = longDistHyb[[i]][leftLength < length & rightLength < length,]
+    }
+    return(longDistHyb)
+}
+

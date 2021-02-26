@@ -20,6 +20,13 @@ After sequencing, short reads are produced where one half of the read correspond
 
 # COMRADES data pre-processing
 
+
+* Raw data ( .fastq ) can be downloded from: 
+
+    https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE154662 or from
+    the other experiment mentioned above. Processed data can also be 
+    downloaded (If downloaded .hyb files, skip this section)
+
 * Cutadapt (parameters: )
 
     https://cutadapt.readthedocs.io/en/stable/

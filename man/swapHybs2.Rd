@@ -12,7 +12,7 @@ swapHybs2(hybList, rna)
 \item{rna}{The rna of interest}
 }
 \value{
-A list of "swapped" hyb datas
+A list of "swapped" hyb data
 }
 \description{
 Swap the table to ensure that 3 prime most duplex side is on the left of the table

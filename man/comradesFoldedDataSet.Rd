@@ -9,7 +9,7 @@
 comradesFoldedDataSet(cdsObject, rna, rnaRefs)
 }
 \arguments{
-\item{cdsObject}{comradesDataSet object created with comradesDataSet}
+\item{cdsObject}{comradesClusteredDataSet object created with comradesClusteredDataSet}
 
 \item{rna}{string - a single RNA to analyse}
 
@@ -38,7 +38,7 @@ objects of the original duplexes with their cluster membership
 #' @slot sampleTable table - Column names; fileName, group (s or c),
  sample (1,2,3, etc), sampleName (must be unique)}
 
-\item{\code{rnas}}{vector - A vector of RNA names to analyse}
+\item{\code{rna}}{string - a single RNA to analyse - must be present in \code{rnas(cdsObject)}}
 
 \item{\code{group}}{list - This is made from the a sample table during object 
 creation, it is a list with two vector elements ("c","s") containing the 

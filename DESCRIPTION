@@ -27,7 +27,9 @@ Collate:
     'comradesOO.R'
     'comradesDataSet.R'
     'comradesClusteredDataSet.R'
+    'comradesClusteredDataSetMethodsAndHelpers.R'
     'comradesFoldedDataSet.R'
+    'comradesFoldedDataSetMethodsAndHelpers.R'
     'methods.R'
 Suggests: 
     knitr,

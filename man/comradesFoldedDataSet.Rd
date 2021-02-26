@@ -34,7 +34,7 @@ with coordinates and information about the clusters identified}
 
 \item{\code{clusterGrangesList}}{List - Follows the pattern for list slots of comradesDataSet
 objects, \code{matrixList(cds)[[rna]][[type]][[sample]]}. contains GRanges 
-objects of the original suplexes with their cluster membership
+objects of the original duplexes with their cluster membership
 #' @slot sampleTable table - Column names; fileName, group (s or c),
  sample (1,2,3, etc), sampleName (must be unique)}
 

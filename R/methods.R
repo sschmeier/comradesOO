@@ -1,8 +1,11 @@
+##################################################
+###############      METHODS       ###############
+##################################################
 
-######################### METHODS   ###############
+##################################################
+###############      Show          ###############
+##################################################
 
-
-######################### show methods  ###############
 
 setMethod("show", "comradesDataSet", function(object) {
     cat("comradesDataSet Object \n")
@@ -15,6 +18,7 @@ setMethod("show", "comradesDataSet", function(object) {
     cat("Raw data  - ", types, "\n")
 
 })
+
 
 setMethod("show", "comradesClusteredDataSet", function(object) {
     cat("comradesClusteredDataSet Object \n")
@@ -36,6 +40,7 @@ setMethod("show", "comradesClusteredDataSet", function(object) {
     }
     cat("Cluster Types - ", types, "\n")
 })
+
 
 setMethod("show", "comradesFoldedDataSet", function(object) {
     cat("comradesFoldedDataSet Object \n")
@@ -59,18 +64,62 @@ setMethod("show", "comradesFoldedDataSet", function(object) {
 })
 
 
-setGeneric("clusterTableFolded", function(x) standardGeneric("clusterTableFolded"))
-setMethod("clusterTableFolded", "comradesFoldedDataSet", function(x)  x@clusterTableFolded)
 
-######################### METHODS for clustered  datasaet  ###############
-# Acessors ##################################
+##################################################
+###############  Accessors         ###############
+##################################################
+# Functions to access the attributes
+
+# comradesDataSet
+setGeneric("rnas", function(x) standardGeneric("rnas"))
+setMethod("rnas", "comradesDataSet", function(x)  x@rnas)
+
+setGeneric("hybDir", function(x) standardGeneric("hybDir"))
+setMethod("hybDir", "comradesDataSet", function(x)   x@hybDir)
+
+setGeneric("sampleTable", function(x) standardGeneric("sampleTable"))
+setMethod("sampleTable", "comradesDataSet", function(x)   x@sampleTable)
+
+setGeneric("hybFiles", function(x) standardGeneric("hybFiles"))
+setMethod("hybFiles", "comradesDataSet", function(x)   x@hybFiles)
+
+setGeneric("matrixList", function(x) standardGeneric("matrixList"))
+setMethod("matrixList", "comradesDataSet", function(x)   x@matrixList)
+
+setGeneric("group", function(x) standardGeneric("group"))
+setMethod("group", "comradesDataSet", function(x)   x@group)
+
+setGeneric("sampleNames", function(x) standardGeneric("sampleNames"))
+setMethod("sampleNames", "comradesDataSet", function(x)   x@"sampleNames")
+
+
+# comradesClusteredDataSet
 setGeneric("clusterGrangesList", function(x) standardGeneric("clusterGrangesList"))
 setMethod("clusterGrangesList", "comradesClusteredDataSet", function(x)  x@clusterGrangesList)
 
 setGeneric("clusterTableList", function(x) standardGeneric("clusterTableList"))
 setMethod("clusterTableList", "comradesClusteredDataSet", function(x)  x@clusterTableList)
 
-#allows clustered to be altered
+
+# comradesFoldedDataSet
+setGeneric("clusterTableFolded", function(x) standardGeneric("clusterTableFolded"))
+setMethod("clusterTableFolded", "comradesFoldedDataSet", function(x)  x@clusterTableFolded)
+
+
+
+##################################################
+###############  Setters           ###############
+##################################################
+# for slots that need to be altered during processing
+
+
+#comradesDataSet
+setGeneric("matrixList<-", function(x, value) standardGeneric("matrixList<-"))
+setMethod("matrixList<-", "comradesDataSet", function(x, value) {
+    x@matrixList  = value
+})
+
+#comradesClusteredDataSet
 setGeneric("clusterGrangesList<-", function(x, value) standardGeneric("clusterGrangesList<-"))
 setMethod("clusterGrangesList<-", "comradesClusteredDataSet", function(x, value) {
     x@clusterGrangesList  = value
@@ -84,9 +133,36 @@ setMethod("clusterTableList<-", "comradesClusteredDataSet", function(x, value) {
 
 
 
-# adds super clusters and trimmed to clustered cds object
+
+
+
+
+
+
+
+
+
+
+
+
+
+#' trimClusters
+#'
+#' This method trims the clusters
+#'
+#' @param clusteredCds a \code{comradesClusteredDataSet} object
+#' 
+#' 
+#' @return Returns a \code{comradesClusteredDataSet} object
+#' 
+#' The 3 attributes matrixList, clusterTableList and clusterGrangesList 
+#' will gain the \code{types} "superClusters" and "trimmedClusters"
+#' 
+#' @export
+#' 
 setGeneric("trimClusters",
            function(clusteredCds, ...) standardGeneric("trimClusters" ) )
+
 setMethod("trimClusters",
           "comradesClusteredDataSet",
           function(clusteredCds)  {
@@ -404,8 +480,36 @@ setMethod("trimClusters",
 
 
 
-# adds super clusters and trimmed to clustered cds object
-setGeneric("compareKnown", function(trimmedClusters, knownMat,rna,  type, ...) standardGeneric("compareKnown"))
+
+
+
+#' compareKnown
+#'
+#' This method compares the current object to a know structure.run 
+#' \code{trimClusters()} on the  \code{comradesClusteredDataSet} first
+#'
+#' @param trimmedClusters a \code{comradesClusteredDataSet} object, 
+#' run \code{trimClusters()} on the  \code{comradesClusteredDataSet} first
+#' 
+#' @param knownMat Matrix - A marix(ncol = lengthRNA,nrow = lengthRNA) where a
+#' value in matrix[x,y] would indicate a known interation between nucleotide 
+#' x and nucleotide y 
+#' 
+#' @slot rna string - a single RNA to analyse - must be present in \code{rnas(cdsObject)} 
+#' 
+#' @param type string - the type of clusters you would like to compare you can find 
+#' available types by just running the objects name
+#' 
+#' 
+#' @return Returns a \code{comradesClusteredDataSet} object
+#' 
+#' The 3 attributes matrixList, clusterTableList and clusterGrangesList 
+#' will gain the \code{types} "known" and "novel" and "knownAndNovel"
+#' 
+#' @export
+setGeneric("compareKnown", 
+           function(trimmedClusters, knownMat,rna,  type, ...) standardGeneric("compareKnown"))
+
 setMethod("compareKnown", "comradesClusteredDataSet", function(trimmedClusters, knownMat,rna, type)  {
 
     ###################################
@@ -735,36 +839,7 @@ setMethod("plotMatricesAverage", "comradesDataSet", function(cds,type, directory
 
 #plot
 
-# Acessors ##################################
-setGeneric("rnas", function(x) standardGeneric("rnas"))
-setMethod("rnas", "comradesDataSet", function(x)  x@rnas)
 
-setGeneric("hybDir", function(x) standardGeneric("hybDir"))
-setMethod("hybDir", "comradesDataSet", function(x)   x@hybDir)
-
-setGeneric("sampleTable", function(x) standardGeneric("sampleTable"))
-setMethod("sampleTable", "comradesDataSet", function(x)   x@sampleTable)
-
-setGeneric("hybFiles", function(x) standardGeneric("hybFiles"))
-setMethod("hybFiles", "comradesDataSet", function(x)   x@hybFiles)
-
-setGeneric("matrixList", function(x) standardGeneric("matrixList"))
-setMethod("matrixList", "comradesDataSet", function(x)   x@matrixList)
-
-setGeneric("group", function(x) standardGeneric("group"))
-setMethod("group", "comradesDataSet", function(x)   x@group)
-
-setGeneric("sampleNames", function(x) standardGeneric("sampleNames"))
-setMethod("sampleNames", "comradesDataSet", function(x)   x@"sampleNames")
-
-# Setter Functions ##################################
-setGeneric("matrixList<-", function(x, value) standardGeneric("matrixList<-"))
-setMethod("matrixList<-", "comradesDataSet", function(x, value) {
-    x@matrixList  = value
-})
-
-
-#Do we need these?
 
 
 

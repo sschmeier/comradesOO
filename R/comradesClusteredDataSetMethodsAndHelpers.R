@@ -1,3 +1,341 @@
+#' @include  comradesDataSet.R comradesFoldedDataSet.R comradesClusteredDataSet.R
+NULL
+
+#' trimClusters
+#'
+#' This method trims the clusters
+#'
+#' @param clusteredCds a \code{comradesClusteredDataSet} object
+#' 
+#' 
+#' @return Returns a \code{comradesClusteredDataSet} object
+#' 
+#' The 3 attributes matrixList, clusterTableList and clusterGrangesList 
+#' will gain the \code{types} "superClusters" and "trimmedClusters"
+#' 
+#' @export
+#' 
+setGeneric("trimClusters",
+           function(clusteredCds, ...) standardGeneric("trimClusters" ) )
+
+setMethod("trimClusters",
+          "comradesClusteredDataSet",
+          function(clusteredCds)  {
+              
+              ##############################
+              # set up variables
+              allChimerasForSuperClustersPlotting = list()
+              for(rna in rnas(clusteredCds)){  ## for each RNA
+                  
+                  # size of rna
+                  rnaSize = ncol(matrixList(clusteredCds)[[rna]][["noHost"]][[1]])
+                  # original clusters
+                  originalClusters =  clusterTableList(clusteredCds)[[rna]][["original"]]
+                  
+                  
+                  ##############################
+                  # Now cluster the clusters
+                  #get original tables
+                  clusterPositionsList = clusterTableList(clusteredCds)[[rna]][["original"]]
+                  #get original gRanges
+                  combinedPlotting     = clusterGrangesList(clusteredCds)[[rna]][["original"]]
+                  
+                  ##############################
+                  # Set up new tables, matric and granges lists
+                  superclustersPoisitonList = list()
+                  superclustersPlotting = list()
+                  matList = list()
+                  
+                  for(z in 1:length(sampleNames(clusteredCds))){
+                      
+                      clusterPositions = clusterPositionsList[[z]]
+                      ##############################
+                      # changes coordinates of clusters where the 2 sides overlap
+                      clusterPositions2 = clusterPositions
+                      for(i in 1:nrow(clusterPositions )){
+                          if(clusterPositions$le[i] > clusterPositions$rs[i]){
+                              clusterPositions2[i,"rs"] =     clusterPositions[i,"le"] +1
+                          }
+                      }
+                      ##############################
+                      #make Granges left right and gap
+                      left = GRanges(seqnames=rna,
+                                     IRanges(start=clusterPositions2$ls,
+                                             end=clusterPositions2$le))
+                      names(left) <- clusterPositions2$id
+                      right= GRanges(seqnames=rna,
+                                     IRanges(start=clusterPositions2$rs,
+                                             end=clusterPositions2$re))
+                      names(right) <- clusterPositions2$id
+                      distances = GRanges(seqnames=rna,
+                                          IRanges(start=clusterPositions2$le,
+                                                  end=clusterPositions2$rs))
+                      names(distances) <- clusterPositions2$id
+                      
+                      
+                      ##############################
+                      # Now make super clusters
+                      ##############################
+                      
+                      # from the gaps, make a adjacancy matrix
+                      adjacancyMat = getAdjacancyMat(distances,"nucleotide", 35)
+                      # create Graph
+                      net = graph_from_adjacency_matrix(adjacancyMat,
+                                                        mode = "undirected",
+                                                        weighted = T)
+                      # clusterGraph
+                      clustering = cluster_walktrap(net,steps = 1)
+                      
+                      ##############################
+                      # Store Super-clusters
+                      highest_clusters = names(table(membership(clustering)))
+                      # printClustersFast function creates a the standard clustering
+                      # table from the iGraph output
+                      superclustersPlotting[[z]]  = printClustersFast("../clustering/combined/",clustering, highest_clusters, left, right)
+                      plottingListFull = superclustersPlotting[[z]]
+                      
+                      ##############################
+                      # Identify orphan clusters that missed with superclustering
+                      missing = as.character(clusterPositions$id[which( !(as.character(clusterPositions$id) %in% unique(names(plottingListFull)) ) )])
+                      clusterPositionsmissing = clusterPositions[clusterPositions$id %in% missing,]
+                      
+                      ##############################
+                      #  Get super cluster and cluster identity
+                      cluster = mcols(plottingListFull)$cluster
+                      names(cluster)= names(plottingListFull)
+                      #  add this super cluster membership to the clustering table
+                      clusterPositions$superCluster = cluster[as.character((clusterPositions$id))]
+                      clusterPositions = clusterPositions[!is.na(clusterPositions$superCluster),]
+                      # no find the number of chimeras in each supercluster
+                      lengths = aggregate(clusterPositions$size.x, by = list(clusterPositions$superCluster), FUN = sum)
+                      row.names(lengths) = lengths$Group.1
+                      
+                      ##############################
+                      # make Table
+                      #for each cluster get the min start and max end
+                      plottingSplit = split(plottingListFull, paste(mcols(plottingListFull)$cluster, mcols(plottingListFull)$type))
+                      
+                      #returns the min start and max ends of each cluster
+                      minStarts = unlist(lapply(plottingSplit, function(x) {return(min(start(x)))  }))
+                      maxEnd = unlist(lapply(plottingSplit, function(x) {return(max(end(x)))  }))
+                      # Make the clustering table
+                      clusterPositionsCombined = data.frame("id" = names(maxEnd)[seq(1,length(minStarts),2)],
+                                                            "ls" = minStarts[seq(1,length(minStarts),2)],
+                                                            "le" = maxEnd[seq(1,length(maxEnd),2)],
+                                                            "rs" = minStarts[seq(2,length(minStarts),2)],
+                                                            "re" = maxEnd[seq(2,length(maxEnd),2)],
+                                                            "size" = lengths[as.numeric(sub("\\s.*","",names(maxEnd)[seq(1,length(minStarts),2)])),])
+                      
+                      # Make the clustering table
+                      superclustersPoisitonList[[z]] = rbind.data.frame(clusterPositionsmissing,
+                                                                        clusterPositionsCombined,
+                                                                        stringsAsFactors = F)
+                      
+                      ##############################
+                      # Make matrices of superclusters
+                      clusterPositions = superclustersPoisitonList[[z]]
+                      mat = matrix(0,nrow = rnaSize, ncol = rnaSize)
+                      for(i in 1:nrow(clusterPositions)){
+                          mat[clusterPositions[i,"ls"]:clusterPositions[i,"le"],
+                              clusterPositions[i,"rs"]:clusterPositions[i,"re"]] =    mat[clusterPositions[i,"ls"]:clusterPositions[i,"le"],
+                                                                                          clusterPositions[i,"rs"]:clusterPositions[i,"re"]] + clusterPositions[i, "size.x"]
+                          
+                      }
+                      matList[[z]] = mat
+                  }
+                  ##############################
+                  # Save new Table and matrix list -  super clusters
+                  print("saving")
+                  print("saving mat list")
+                  ml = matrixList(clusteredCds)
+                  ml[[rna]][["superClusters"]] = matList
+                  
+                  print("saving table list")
+                  ctl = clusterTableList(clusteredCds)
+                  ctl[[rna]][["superClusters"]] =   superclustersPoisitonList
+              }
+              
+              
+              ##############################
+              # Get Granges List for the super clusters (containing original duplexes)
+              
+              # **
+              allChimerasForSuperClustersPlotting = list()
+              combinedPlottingSplit = list()
+              combinedPlottingUnlist = list()
+              
+              for(b in 1:length(sampleNames(clusteredCds))){
+                  
+                  combinedPlottingUnlist = unlist(combinedPlotting[[b]])
+                  combinedPlottingSplit = split(combinedPlottingUnlist,
+                                                mcols(combinedPlottingUnlist)$cluster)
+                  superClusterArray =  sub("\\s.*","",names(superclustersPlotting[[b]][duplicated(names(superclustersPlotting[[b]]))]))
+                  names(superClusterArray) = superclustersPlotting[[b]][duplicated(names(superclustersPlotting[[b]]))]$cluster
+                  x = superclustersPoisitonList[[b]][ grep("bin", row.names(superclustersPoisitonList[[b]])),]
+                  names = c(names(superClusterArray), row.names(x))
+                  superClusterArray = c(superClusterArray,row.names(x))
+                  names(superClusterArray) = names
+                  combinedPlottingUnlist$superCluster = "X"
+                  for( z in 1:length(superClusterArray)){
+                      supercluster = names(superClusterArray)[z]
+                      cluster = unique(sub("\\s.*","",superClusterArray[z]))
+                      combinedPlottingUnlist[combinedPlottingUnlist$k == cluster,]$superCluster = supercluster
+                  }
+                  allChimerasForSuperClustersPlotting[[b]] = combinedPlottingUnlist
+              }
+              ##############################
+              # Save new Granges super clusters
+              print("saving granges list")
+              cgr = clusterGrangesList(clusteredCds)
+              cgr[[rna]][["superClusters"]]   =  allChimerasForSuperClustersPlotting
+              
+              
+              
+              
+              
+              
+              ##############################
+              # Now Trim the clusters
+              # the new granges list
+              allChimerasForSuperClustersPlottingTrimmed = list()
+              # for each sample
+              for(i in 1:length(sampleNames(clusteredCds))){
+                  allChimerasForSuperClustersPlottingTrimmed[[i]] = GRanges()
+                  #for each cluster
+                  for(cluster in unique(allChimerasForSuperClustersPlotting[[i]]$superCluster)){
+                      cluster2 = sub("\\s.*","" ,cluster)
+                      lefty = list()
+                      
+                      #for the left and right sides for each cluster
+                      # cut the ends based mean and sd of evidence
+                      for(l in c("left","right")){
+                          clusterrange = allChimerasForSuperClustersPlotting[[i]][allChimerasForSuperClustersPlotting[[i]]$superCluster == cluster & allChimerasForSuperClustersPlotting[[i]]$type == l  ,]
+                          min = min(start(clusterrange[clusterrange$superCluster == cluster,]))
+                          max = max(end(clusterrange[clusterrange$superCluster == cluster,]))
+                          s = (start(clusterrange[clusterrange$superCluster == cluster &clusterrange$type == l  ,]))
+                          e = (end(clusterrange[clusterrange$superCluster == cluster &clusterrange$type == l  ,]))
+                          
+                          # function that vectorises Seq
+                          seq2 <- Vectorize(seq.default, vectorize.args = c("from", "to"))
+                          # get a vector of each cluster and side from start to end
+                          # the more eveidence the more times a number appears
+                          x = unlist(c(seq2(from = (s), to = e)))
+                          xt = table(x)
+                          x1 = x
+                          # find rhe mean + and - one sd and
+                          # make a GRanges with this value
+                          removal =  mean(x) + sd(x)*1
+                          included  = GRanges(seqnames=rna,
+                                              IRanges(
+                                                  start=rep(min, length(clusterrange)),
+                                                  end=rep(removal, length(clusterrange))
+                                              ))
+                          if( l == "left"){
+                              removal =  mean(x) -  sd(x)*1
+                              included = GRanges(seqnames=rna,
+                                                 IRanges(
+                                                     start=rep(removal, length(clusterrange)),
+                                                     end=rep(max, length(clusterrange))
+                                                 ))
+                          }
+                          
+                          # now remove any bases that overlap with that
+                          t = pintersect( clusterrange,included)
+                          
+                          allChimerasForSuperClustersPlottingTrimmed[[i]] = c(  allChimerasForSuperClustersPlottingTrimmed[[i]],t)
+                          # un comment to print the views of the trimming
+                          # s = (start(t))
+                          #    e = (end(t))
+                          #    x = unlist(c(seq2(from = s, to = e)))
+                          #    if( l == "left"){
+                          #        lefty[[1]] = x
+                          #            lefty[[2]] = x1
+                          #        }
+                          # }
+                          
+                          #print(cluster )
+                          #tbl1 = data.frame(table(c(x1,lefty[[2]])))
+                          #tbl2 = data.frame(table(c(x,lefty[[1]])))
+                          #plot(ggplot(mapping =  aes(x = Var1, y = as.numeric(as.character(Freq))))+
+                          #       geom_bar(data = tbl1, stat = "identity")+
+                          #       geom_bar(data = tbl2, stat = "identity", colour = "firebrick") +
+                          #       theme_classic())
+                      }
+                  }
+              }
+              
+              
+              
+              
+              
+              ##############################
+              # From the trimmed Granges make a cluster table
+              # foir the trimmed super clusters
+              matListTrimmed = list()
+              clusterPositionsListTrimmed = list()
+              for(j in 1:length(sampleNames(clusteredCds))){
+                  
+                  plotting  = allChimerasForSuperClustersPlottingTrimmed[[j]]
+                  lengths = aggregate(mcols(plotting)$superCluster, by = list(mcols(plotting)$superCluster), FUN = length)
+                  row.names(lengths) = lengths$Group.1
+                  plottingSplit = split(plotting, paste(mcols(plotting)$superCluster, mcols(plotting)$type))
+                  
+                  minStarts = unlist(lapply(plottingSplit, function(x) {return(min(start(x)))  }))
+                  maxEnd = unlist(lapply(plottingSplit, function(x) {return(max(end(x)))  }))
+                  x = sub("\\sleft","",names(maxEnd)[seq(1,length(minStarts),2)])
+                  x = sub("\\sright","",x,2)
+                  clusterPositionsListTrimmed[[j]] = data.frame("id" = names(maxEnd)[seq(1,length(minStarts),2)],
+                                                                "ls" = minStarts[seq(1,length(minStarts),2)],
+                                                                "le" = maxEnd[seq(1,length(maxEnd),2)],
+                                                                "rs" = minStarts[seq(2,length(minStarts),2)],
+                                                                "re" = maxEnd[seq(2,length(maxEnd),2)],
+                                                                "size" = lengths[x,])
+                  
+                  ###################################
+                  # make the matrices
+                  matListTrimmed[[j]] = matrix(0,nrow = rnaSize, ncol = rnaSize)
+                  for(i in 1:nrow(clusterPositionsListTrimmed[[j]])){
+                      matListTrimmed[[j]][clusterPositionsListTrimmed[[j]][i,"ls"]:clusterPositionsListTrimmed[[j]][i,"le"],
+                                          clusterPositionsListTrimmed[[j]][i,"rs"]:clusterPositionsListTrimmed[[j]][i,"re"]] =     matListTrimmed[[j]][clusterPositionsListTrimmed[[j]][i,"ls"]:clusterPositionsListTrimmed[[j]][i,"le"],
+                                                                                                                                                       clusterPositionsListTrimmed[[j]][i,"rs"]:clusterPositionsListTrimmed[[j]][i,"re"]] + clusterPositionsListTrimmed[[j]][i, "size.x"]
+                  }
+              }
+              
+              
+              ###################################
+              # And save
+              print("saving")
+              print("saving mat list")
+              ml[[rna]][["trimmedClusters"]] =     matListTrimmed
+              
+              print("saving granges list")
+              cgr[[rna]][["trimmedClusters"]]   =  allChimerasForSuperClustersPlottingTrimmed
+              
+              print("saving table list")
+              ctl[[rna]][["trimmedClusters"]] =   clusterPositionsListTrimmed
+              
+              
+              ###################################
+              # Re-make the object
+              object  = new("comradesClusteredDataSet",
+                            rnas = rnas(clusteredCds),
+                            hybDir = hybDir(clusteredCds),
+                            sampleTable = sampleTable(clusteredCds),
+                            hybFiles = hybFiles(clusteredCds),
+                            matrixList = ml,
+                            group = group(clusteredCds),
+                            sampleNames = sampleNames(clusteredCds),
+                            clusterTableList = ctl,
+                            clusterGrangesList = cgr
+              )
+              return(object)
+          })
+
+
+
+
+
+
 
 
 #' hybToGRanges

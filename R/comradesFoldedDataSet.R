@@ -1,5 +1,5 @@
-#' @include comradesOO.R comradesDataSet.R comradesClusteredDataSet.R
-
+#' @include  comradesDataSet.R comradesFoldedDataSet.R comradesClusteredDataSet.R
+NULL
 
 
 #' comradesFoldedDataSet

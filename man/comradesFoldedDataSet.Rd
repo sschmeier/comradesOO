@@ -18,6 +18,8 @@ comradesFoldedDataSet(cdsObject, rna, rnaRefs)
 been read with \code{seqinr::read.fasta()}}
 }
 \description{
+Desc
+
 This object is a parent of comradesClusteredDataSet with one extra attribute
 clusterTableFolded.
 }

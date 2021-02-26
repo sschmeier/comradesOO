@@ -1,6 +1,5 @@
-
-
-
+#' @include  comradesDataSet.R comradesFoldedDataSet.R comradesClusteredDataSet.R
+NULL
 
 #' findBasePairsRNAcoFold
 #'

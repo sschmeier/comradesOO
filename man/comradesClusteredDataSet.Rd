@@ -8,6 +8,42 @@
 \usage{
 comradesClusteredDataSet(cds, cores)
 }
-\description{
-Desc
+\arguments{
+\item{cds}{comradesDataSet object created with comradesDataSet}
+
+\item{cores}{numeric - The number of cores to use}
 }
+\description{
+This object is a parent of comradesDataSet with 2 extra attributes
+(clusterTableList and clusterGrangesList) it takes as input a 
+comradesDataSet object and performs clustering of the duplexes.
+}
+\section{Slots}{
+
+\describe{
+\item{\code{clusterTableList}}{List - Follows the pattern for list slots of comradesDataSet
+objects, \code{matrixList(cds)[[rna]][[type]][[sample]]}. contains a table
+with coordinates and information about the clusters identified}
+
+\item{\code{clusterGrangesList}}{List - Follows the pattern for list slots of comradesDataSet
+objects, \code{matrixList(cds)[[rna]][[type]][[sample]]}. contains GRanges 
+objects of the original suplexes with their cluster membership
+#' @slot sampleTable table - Column names; fileName, group (s or c),
+ sample (1,2,3, etc), sampleName (must be unique)}
+
+\item{\code{rnas}}{vector - A vector of RNA names to analyse}
+
+\item{\code{group}}{list - This is made from the a sample table during object 
+creation, it is a list with two vector elements ("c","s") containing the 
+indexes of the sampleTable that have "c" or "s" in the group column.}
+
+\item{\code{matrixList}}{List - Follows the pattern for list slots of comradesDataSet
+objects, \code{matrixList(cds)[[rna]][[type]][[sample]]}. Contains a set
+of contact matrices, each cell contains the number of duplexes identified 
+for position x,y.}
+
+\item{\code{hybFiles}}{List - Follows the pattern for list slots of comradesDataSet
+objects, \code{hybFiles(cds)[[rna]][[type]][[sample]]}. Contains a set of 
+tables, these are the original Hyb files that were read in.}
+}}
+

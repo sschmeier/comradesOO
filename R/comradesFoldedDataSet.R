@@ -6,7 +6,6 @@
 #'
 #' Desc
 #'
-#' @inheritParams comradesClusteredDataSet
 #' @rdname comradesFoldedDataSet
 #' @export
 setClass("comradesFoldedDataSet",
@@ -30,9 +29,39 @@ setValidity("comradesFoldedDataSet", function(object) {
 
 #' comradesFoldedDataSet
 #'
-#' Desc
 #'
-#' @inheritParams comradesClusteredDataSet
+#' This object is a parent of comradesClusteredDataSet with one extra attribute
+#' clusterTableFolded.
+#'
+#' @param cdsObject comradesDataSet object created with comradesDataSet
+#' @param rna string - a single RNA to analyse  
+#' @param rnarefs named List - a list with named elements that correspond to the 
+#'     .RNA of interest. The element of the list must be a fasta file that has 
+#'     been read with \code{seqinr::read.fasta()}
+#'
+#' @slot clusterTableFolded table - a table similar to the \code{clusterTableList}
+#' it contains coordinates of the clusters along with vienna format fold and 
+#' RNA sequences for each cluster
+#' @slot clusterTableList List - Follows the pattern for list slots of comradesDataSet
+#' objects, \code{matrixList(cds)[[rna]][[type]][[sample]]}. contains a table
+#' with coordinates and information about the clusters identified
+#' @slot clusterGrangesList List - Follows the pattern for list slots of comradesDataSet
+#' objects, \code{matrixList(cds)[[rna]][[type]][[sample]]}. contains GRanges 
+#' objects of the original duplexes with their cluster membership
+#' #' @slot sampleTable table - Column names; fileName, group (s or c),
+#'  sample (1,2,3, etc), sampleName (must be unique)
+#' @slot rnas vector - A vector of RNA names to analyse 
+#' @slot group list - This is made from the a sample table during object 
+#' creation, it is a list with two vector elements ("c","s") containing the 
+#' indexes of the sampleTable that have "c" or "s" in the group column.
+#' @slot matrixList List - Follows the pattern for list slots of comradesDataSet
+#' objects, \code{matrixList(cds)[[rna]][[type]][[sample]]}. Contains a set
+#' of contact matrices, each cell contains the number of duplexes identified 
+#' for position x,y.
+#' @slot hybFiles List - Follows the pattern for list slots of comradesDataSet
+#' objects, \code{hybFiles(cds)[[rna]][[type]][[sample]]}. Contains a set of 
+#' tables, these are the original Hyb files that were read in. 
+#'
 #' @rdname comradesFoldedDataSet
 #' @export
 

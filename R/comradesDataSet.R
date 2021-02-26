@@ -1,12 +1,12 @@
 #' @include comradesOO.R
 
+
 #' comradesDataSet
 #'
 #' An S4 class to represent a COMRADES dataset
 #'
 #'
 #'
-#' @rdname comradesDataSet
 #'
 #' @slot sampleTable Table File Name -  Column names - fileName, group (s or c),
 #'  sample (1,2,3, etc), sampleName (must be unique)
@@ -22,13 +22,12 @@
 #' tables, these are the original Hyb files that were read in. 
 #'
 #'
-#'
+#' @rdname comradesDataSet
 #' @export
 #'
 setClass("comradesDataSet",
          slots = c(
              rnas = "character",
-             hybDir = "character",
              sampleTable = "data.frame",    # meta data
              hybFiles = "list",       # data tables
              matrixList = "list",
@@ -50,37 +49,53 @@ setValidity("comradesDataSet", function(object) {
 
 #' comradesDataSet
 #'
-#' \code{comradesDataSet} Is used to store the input meta-data, data and create 
-#' a framework for the storage of results. Whilst creating the object, 
+#' \code{comradesDataSet} objects are used to store the input meta-data, data and
+#' create a framework for the storage of results. Whilst creating the object, 
 #' the original hyb files are also filtered for the RNA of interest. 
-#' The user must supply the directory of the input files, the rna of interest 
-#' and a sampleTable. 
 #'
 #'
-#' @param rnas desc
-#' @param hybDir desc
-#' @param sampletable desc
-#' @param group desc
-#' @param rnaSize desc
+#' @param rnas vector - The names of the RNA interest, these must be displayed
+#' the same way as in the input Hyb Files. 
+#' @param rnaSize named list - The sizes (nt) of the RNAs of interest, the list
+#'  elements must have same names as the \code{rnas} vector and each each contain 
+#'  one numeric value. 
+#' @param sampletable string - The address of the sample table, the sample table
+#'  must have 4 columns, fileName (the full path and file name of the input 
+#'  hyb file for each sample ), group ("s" - sample or "c" - control), 
+#'  sample (1,2,3, etc), sampleName (must be unique).
+#'  
 #' @return A comradesDataSet object.
+#' 
+#' 
+#' 
+#' @slot sampleTable table - Column names; fileName, group (s or c),
+#'  sample (1,2,3, etc), sampleName (must be unique)
+#' @slot rnas vector - A vector of RNA names to analyse 
+#' @slot group list - This is made from the a sample table during object 
+#' creation, it is a list with two vector elements ("c","s") containing the 
+#' indexes of the sampleTable that have "c" or "s" in the group column.
+#' @slot matrixList List - Follows the pattern for list slots of comradesDataSet
+#' objects, \code{matrixList(cds)[[rna]][[type]][[sample]]}. Contains a set
+#' of contact matrices, each cell contains the number of duplexes identified 
+#' for position x,y.
+#' @slot hybFiles List - Follows the pattern for list slots of comradesDataSet
+#' objects, \code{hybFiles(cds)[[rna]][[type]][[sample]]}. Contains a set of 
+#' tables, these are the original Hyb files that were read in. 
 #'
-#'
-#' @references See \url{http://www-huber.embl.de/users/anders/HTSeq} for hyb
+#' @references See \url{https://github.com/gkudla/hyb} for hyb
 #'
 #' @docType class
+#' 
+#' @rdname comradesDataSet
 #'
 #' @examples
 #'
 #'
-#' @rdname DESeqDataSet
-#' @importFrom utils packageVersion
 #' @export
 
 comradesDataSet <- function(rnas,
-                            hybDir,
-                            sampleTable,
-                            group,
-                            rnaSize) {
+                            rnaSize,
+                            sampleTable) {
     ###########################################################
     # Read in the sample table
     ###########################################################
@@ -185,6 +200,7 @@ comradesDataSet <- function(rnas,
     print(" ***** Getting RNAs of Interest ******")
     # Get the rna of interest it comes in two ways, with host and without
     for(i in 1:length(rnas)){
+        
         print(" *** RNA of interest + Host RNA ***")
         hybFiles[[ rnas[ i ] ]][[ "original"]] = swapHybs(hybList = hybFiles[[ "all" ]][[ "all" ]],
                                                           rna = rnas[ i ] )
@@ -205,15 +221,16 @@ comradesDataSet <- function(rnas,
     matrixList = list()
     c = 1
     for(i in rnas){
+        rnaSize2 =   rnaSize[[i]]
         print(i)
         matrixList[[i]][[ "noHost" ]] = list()
         matrixList[[i]][[ "noHost" ]] = getMatrices(hybFiles[[ i  ]][[ "noHost"]],
-                                                    i, rnaSize[c])
+                                                    i, rnaSize2)
         names(matrixList[[i]][[ "noHost" ]]) = sampleNames
 
         matrixList[[i]][[ "original" ]] = list()
         matrixList[[i]][[ "original" ]] = getMatrices(hybFiles[[ i  ]][[ "original"]],
-                                                      i, rnaSize[c])
+                                                      i, rnaSize2)
         names(matrixList[[i]][[ "original" ]]) = sampleNames
         c = c +1
     }
@@ -227,7 +244,6 @@ comradesDataSet <- function(rnas,
     #create comrades dataset object
     object  = new("comradesDataSet",
                   rnas = rnas,
-                  hybDir = hybDir,
                   sampleTable = sampleTable,
                   hybFiles = hybFiles,
                   matrixList = matrixList,

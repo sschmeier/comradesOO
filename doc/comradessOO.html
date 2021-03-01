@@ -33,6 +33,99 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+/* A workaround for https://github.com/jgm/pandoc/issues/4278 */
+a.sourceLine {
+  pointer-events: auto;
+}
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -74,18 +167,20 @@ code span.er { color: #a61717; background-color: #e3d2d2; }
 <div id="TOC" class="toc">
 <div class="inner">
 <ul>
-<li><a href="#comrades-experiment">COMRADES experiment</a></li>
+<li><a href="#comradesoo">comradesOO</a></li>
+<li><a href="#the-comrades-experiment">The COMRADES experiment</a></li>
 <li><a href="#comrades-data-pre-processing">COMRADES data pre-processing</a><ul>
 <li><a href="#prerequisits">Prerequisits</a></li>
+<li><a href="#installation">Installation</a></li>
 <li><a href="#inputs">Inputs</a></li>
 </ul></li>
-<li><a href="#comradesoo-package">comradesOO Package</a></li>
+<li><a href="#comradesoo-1">comradesOO</a></li>
 <li><a href="#classes">3 classes</a><ul>
 <li><a href="#comradesdataset">comradesDataSet</a></li>
 <li><a href="#comradesclustereddataset">comradesClusteredDataSet</a></li>
 <li><a href="#comradesfoldeddataset">comradesFoldedDataSet</a></li>
 </ul></li>
-<li><a href="#standard-workflow">Standard Workflow</a></li>
+<li><a href="#quick-start-workflow">Quick Start Workflow</a></li>
 </ul>
 </div>
 </div>
@@ -93,8 +188,11 @@ code span.er { color: #a61717; background-color: #e3d2d2; }
 <div id="content-wrapper">
   <div class="inner clearfix">
     <section id="main-content">
-<div id="comrades-experiment" class="section level1">
-<h1>COMRADES experiment</h1>
+<div id="comradesoo" class="section level1">
+<h1>comradesOO</h1>
+</div>
+<div id="the-comrades-experiment" class="section level1">
+<h1>The COMRADES experiment</h1>
 <p>See the documentation and vignettes for more explanation</p>
 <p>The COMRADES experimental protocol for the prediction of RNA structure in vivo was first published in 2018 (Ziv et al., 2019) where they predicted the structure of the Zika virus. The protocol has subsequently been use to predict the structure of SARS-CoV-2 (Ziv et al., 2020).</p>
 <p>To gain a better understanding of the protocol see:</p>
@@ -107,45 +205,75 @@ code span.er { color: #a61717; background-color: #e3d2d2; }
 <p class="caption">Figure from Ziv et al., 2020. Virus-inoculated cells are crosslinked using clickable psoralen. Viral RNA is pulled down from the cell lysate using an array of biotinylated DNA probes, following digestion of the DNA probes and fragmentation of the RNA. Biotin is attached to crosslinked RNA duplexes via click chemistry, enabling pulling down crosslinked RNA using streptavidin beads. Half of the RNA duplexes are proximity-ligated, following reversal of the crosslinking to enable sequencing. The other half serves as a control, in which crosslink reversal proceeds the proximity ligation</p>
 </div>
 <p>After sequencing, short reads are produced where one half of the read corresponds to one half of an RNA duplex and the other half of the reads corresponds to the other half of the RNA duplex. This package has been designed to analyse this data. The short reads need to be processed is a specific way, see the next section.</p>
+<p>As well as the RNA of interest. In the studies above there is also structural information present for many other RNAs in the genome.</p>
 </div>
 <div id="comrades-data-pre-processing" class="section level1">
 <h1>COMRADES data pre-processing</h1>
+<p>The quickest way to get going with the analysis of your RNA interest is to download a dataset that has previously been processed and stored in GEO:</p>
 <ul>
-<li><p>Cutadapt (parameters: )</p>
-<p><a href="https://cutadapt.readthedocs.io/en/stable/" class="uri">https://cutadapt.readthedocs.io/en/stable/</a></p></li>
-<li><p>2 Pear (parameters: )</p>
-<p><a href="https://cme.h-its.org/exelixis/web/software/pear/" class="uri">https://cme.h-its.org/exelixis/web/software/pear/</a></p></li>
-<li><p>3 UMI Removal (parameters: )</p>
-<p><a href="https://readthedocs.org/projects/umi-tools/downloads/pdf/stable/" class="uri">https://readthedocs.org/projects/umi-tools/downloads/pdf/stable/</a></p></li>
-<li><p>4 Hyb (parameters: )</p>
-<p><a href="https://github.com/gkudla/hyb" class="uri">https://github.com/gkudla/hyb</a></p></li>
+<li><a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE154662" class="uri">https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE154662</a></li>
 </ul>
+<p>Download the files that end in <code>.hyb</code> or <code>.hyb.gz</code> or similar. These are the the files produces by step 5 below and can be used as input to this packagae, if you do this, skip the data pre-processing section.</p>
+<p>If you would prefer to analyse the raw data see the steps below:</p>
+<p>1 Raw data ( .fastq ) can be downloded from:</p>
+<pre><code>https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE154662 or from
+the other experiment mentioned above. </code></pre>
+<p>2 Cutadapt - Trimming adapters</p>
+<pre><code>parameters:    -a AGATCGGAAGAGCACACGTCTGAACTCCAGTC 
+               -A AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT
+               --minimum-length 10 
+https://cutadapt.readthedocs.io/en/stable/</code></pre>
+<p>3 Pear - Joining Paired-end reads</p>
+<pre><code>parameters:    -f R1.fastq
+               -r R2.fastq
+https://cme.h-its.org/exelixis/web/software/pear/</code></pre>
+<p>4 collapse.py - UMI Removal</p>
+<pre><code>parameters: --minreads 1
+https://readthedocs.org/projects/umi-tools/downloads/pdf/stable/</code></pre>
+<p>5 Hyb - Finding structural duplexes</p>
+<pre><code>https://github.com/gkudla/hyb</code></pre>
 <div id="prerequisits" class="section level2">
 <h2>Prerequisits</h2>
 <ul>
-<li>A number of R libraries</li>
-<li>The vienna Packagae (if performing folding)</li>
+<li><p>The vienna Packagae (if performing folding)</p></li>
+<li><p>R packages (will install automatically):</p>
+<ul>
+<li>ggplot2</li>
+<li>reshape2</li>
+<li>GenomicRanges</li>
+<li>igraph</li>
+<li>heatmap3</li>
+<li>MASS</li>
+<li>mixtools</li>
+<li>RColorBrewer</li>
+<li>foreach</li>
+<li>doParallel</li>
+<li>R4RNA</li>
+</ul></li>
 </ul>
+</div>
+<div id="installation" class="section level2">
+<h2>Installation</h2>
+<p>Current install is via GitHub.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;JLP-BioInf/comradesOO&quot;</span>)</span></code></pre></div>
 </div>
 <div id="inputs" class="section level2">
 <h2>Inputs</h2>
 <ul>
-<li>Sample Table</li>
-<li>Hyb output files</li>
-<li>RNA of interest (as annotated in the Hyb output files)</li>
-<li>RNA length</li>
-<li>RNA Sequence (if performing folding)</li>
+<li><p>Hyb output files</p>
+<p>The hyb output files</p></li>
+<li><p>Sample Table</p>
+<p>Must have 4 columns, fileName (the full path and file name of the input hyb file for each sample ), group (“s” - sample or “c” - control), sample (1,2,3, etc), sampleName (must be unique).</p></li>
+<li><p>RNA of interest (as annotated in the Hyb output files)</p>
+<p>The name of the RNA as shown the in the Hyb files.</p></li>
+<li><p>RNA length</p>
+<p>rnaSize named list - The sizes (nt) of the RNAs of interest, the list elements must have same names as the  vector and each each</p></li>
+<li><p>RNA Sequence (if performing folding)</p></li>
 </ul>
 </div>
 </div>
-<div id="comradesoo-package" class="section level1">
-<h1>comradesOO Package</h1>
-<ul>
-<li>figures of what the package does - clustering - folding</li>
-<li>links to each of the classes</li>
-<li>explanation of slots</li>
-<li>methods</li>
-</ul>
+<div id="comradesoo-1" class="section level1">
+<h1>comradesOO</h1>
 </div>
 <div id="classes" class="section level1">
 <h1>3 classes</h1>
@@ -163,9 +291,216 @@ code span.er { color: #a61717; background-color: #e3d2d2; }
 <p>detailed explanation of the class with slots etc</p>
 </div>
 </div>
-<div id="standard-workflow" class="section level1">
-<h1>Standard Workflow</h1>
-<p>code for a standard workflow.</p>
+<div id="quick-start-workflow" class="section level1">
+<h1>Quick Start Workflow</h1>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a></span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="co">## Get the sampleTable</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a>sampleTable2 =<span class="st"> </span><span class="kw">data.frame</span>(<span class="st">&quot;fileName&quot;</span> =<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;/path/to/sample&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>,<span class="st">&quot;.hyb&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>),</span>
+<span id="cb7-4"><a href="#cb7-4"></a>                          <span class="st">&quot;group&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;c&quot;</span>,<span class="st">&quot;s&quot;</span>,<span class="st">&quot;c&quot;</span>,<span class="st">&quot;s&quot;</span>,<span class="st">&quot;c&quot;</span>,<span class="st">&quot;s&quot;</span>),</span>
+<span id="cb7-5"><a href="#cb7-5"></a>                          <span class="st">&quot;sample&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>),</span>
+<span id="cb7-6"><a href="#cb7-6"></a>                          <span class="st">&quot;sampleName&quot;</span> =<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;sample&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>))</span>
+<span id="cb7-7"><a href="#cb7-7"></a></span>
+<span id="cb7-8"><a href="#cb7-8"></a></span>
+<span id="cb7-9"><a href="#cb7-9"></a><span class="co">## Get the name of RNA</span></span>
+<span id="cb7-10"><a href="#cb7-10"></a>rna =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;ENSG000000XXXXX_NR003286-2_RN18S1_rRNA&quot;</span>)</span>
+<span id="cb7-11"><a href="#cb7-11"></a></span>
+<span id="cb7-12"><a href="#cb7-12"></a>rnaSize =<span class="st"> </span><span class="kw">list</span>()</span>
+<span id="cb7-13"><a href="#cb7-13"></a>rnaSize[[rna]] =<span class="st"> </span><span class="dv">1869</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a></span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="co">#make comradesDataSet object</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a>cds =<span class="st"> </span><span class="kw">comradesDataSet</span>(<span class="dt">rnas =</span> rna,</span>
+<span id="cb8-4"><a href="#cb8-4"></a>                      <span class="dt">rnaSize =</span> rnaSize,</span>
+<span id="cb8-5"><a href="#cb8-5"></a>                      <span class="dt">sampleTable =</span>     sampleTable2)</span>
+<span id="cb8-6"><a href="#cb8-6"></a></span>
+<span id="cb8-7"><a href="#cb8-7"></a></span>
+<span id="cb8-8"><a href="#cb8-8"></a></span>
+<span id="cb8-9"><a href="#cb8-9"></a></span>
+<span id="cb8-10"><a href="#cb8-10"></a><span class="co"># plot matrices </span></span>
+<span id="cb8-11"><a href="#cb8-11"></a><span class="kw">plotMatrices</span>(<span class="dt">cds =</span> cds,</span>
+<span id="cb8-12"><a href="#cb8-12"></a>             <span class="dt">type =</span> <span class="st">&quot;noHost&quot;</span>,</span>
+<span id="cb8-13"><a href="#cb8-13"></a>             <span class="dt">directory =</span> <span class="st">&quot;/Users/jp/projects/omer/riboHighTempOOP/figures/raw&quot;</span>,</span>
+<span id="cb8-14"><a href="#cb8-14"></a>             <span class="dt">a =</span> <span class="dv">1</span>,</span>
+<span id="cb8-15"><a href="#cb8-15"></a>             <span class="dt">b =</span> size,</span>
+<span id="cb8-16"><a href="#cb8-16"></a>             <span class="dt">c =</span> <span class="dv">1</span>,</span>
+<span id="cb8-17"><a href="#cb8-17"></a>             <span class="dt">d =</span> size,</span>
+<span id="cb8-18"><a href="#cb8-18"></a>             <span class="dt">h =</span> <span class="dv">5</span>)</span>
+<span id="cb8-19"><a href="#cb8-19"></a><span class="co"># plot matrices with replicates combined</span></span>
+<span id="cb8-20"><a href="#cb8-20"></a><span class="kw">plotMatricesAverage</span>(<span class="dt">cds =</span> cds,</span>
+<span id="cb8-21"><a href="#cb8-21"></a>                    <span class="dt">type =</span> <span class="st">&quot;noHost&quot;</span>,</span>
+<span id="cb8-22"><a href="#cb8-22"></a>                    <span class="dt">directory =</span> <span class="st">&quot;/Users/jp/projects/omer/riboHighTempOOP/figures/raw&quot;</span>,</span>
+<span id="cb8-23"><a href="#cb8-23"></a>                    <span class="dt">a =</span> <span class="dv">1</span>,</span>
+<span id="cb8-24"><a href="#cb8-24"></a>                    <span class="dt">b =</span> size,</span>
+<span id="cb8-25"><a href="#cb8-25"></a>                    <span class="dt">c =</span> <span class="dv">1</span>,</span>
+<span id="cb8-26"><a href="#cb8-26"></a>                    <span class="dt">d =</span> size,</span>
+<span id="cb8-27"><a href="#cb8-27"></a>                    <span class="dt">h =</span> <span class="dv">5</span>)</span>
+<span id="cb8-28"><a href="#cb8-28"></a></span>
+<span id="cb8-29"><a href="#cb8-29"></a></span>
+<span id="cb8-30"><a href="#cb8-30"></a><span class="co"># plot matrices</span></span>
+<span id="cb8-31"><a href="#cb8-31"></a><span class="kw">plotMatrices</span>(<span class="dt">cds =</span> cds,</span>
+<span id="cb8-32"><a href="#cb8-32"></a>             <span class="dt">type =</span> <span class="st">&quot;original&quot;</span>,</span>
+<span id="cb8-33"><a href="#cb8-33"></a>             <span class="dt">directory =</span> <span class="st">&quot;/Users/jp/projects/omer/riboHighTempOOP/figures/raw&quot;</span>,</span>
+<span id="cb8-34"><a href="#cb8-34"></a>             <span class="dt">a =</span> <span class="dv">1</span>,</span>
+<span id="cb8-35"><a href="#cb8-35"></a>             <span class="dt">b =</span> size,</span>
+<span id="cb8-36"><a href="#cb8-36"></a>             <span class="dt">c =</span> <span class="dv">1</span>,</span>
+<span id="cb8-37"><a href="#cb8-37"></a>             <span class="dt">d =</span> size,</span>
+<span id="cb8-38"><a href="#cb8-38"></a>             <span class="dt">h =</span> <span class="dv">5</span>)</span>
+<span id="cb8-39"><a href="#cb8-39"></a></span>
+<span id="cb8-40"><a href="#cb8-40"></a><span class="kw">plotMatricesAverage</span>(<span class="dt">cds =</span> cds,</span>
+<span id="cb8-41"><a href="#cb8-41"></a>                    <span class="dt">type =</span> <span class="st">&quot;original&quot;</span>,</span>
+<span id="cb8-42"><a href="#cb8-42"></a>                    <span class="dt">directory =</span> <span class="st">&quot;/Users/jp/projects/omer/riboHighTempOOP/figures/raw&quot;</span>,</span>
+<span id="cb8-43"><a href="#cb8-43"></a>                    <span class="dt">a =</span> <span class="dv">1</span>,</span>
+<span id="cb8-44"><a href="#cb8-44"></a>                    <span class="dt">b =</span> size,</span>
+<span id="cb8-45"><a href="#cb8-45"></a>                    <span class="dt">c =</span> <span class="dv">1</span>,</span>
+<span id="cb8-46"><a href="#cb8-46"></a>                    <span class="dt">d =</span> size,</span>
+<span id="cb8-47"><a href="#cb8-47"></a>                    <span class="dt">h =</span> <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co">#make comradesDataSet object and cluster</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a>clusteredCds =<span class="st"> </span><span class="kw">comradesClusteredDataSet</span>(<span class="dt">cds =</span> cds,</span>
+<span id="cb9-3"><a href="#cb9-3"></a>                                        <span class="dt">cores =</span> <span class="dv">3</span>)</span>
+<span id="cb9-4"><a href="#cb9-4"></a></span>
+<span id="cb9-5"><a href="#cb9-5"></a></span>
+<span id="cb9-6"><a href="#cb9-6"></a></span>
+<span id="cb9-7"><a href="#cb9-7"></a><span class="kw">plotMatrices</span>(<span class="dt">cds =</span> clusteredCds,</span>
+<span id="cb9-8"><a href="#cb9-8"></a>             <span class="dt">type =</span> <span class="st">&quot;originalClusters&quot;</span>,</span>
+<span id="cb9-9"><a href="#cb9-9"></a>             <span class="dt">directory =</span> <span class="st">&quot;/Users/jp/projects/omer/riboHighTempOOP/figures/clustered&quot;</span>,</span>
+<span id="cb9-10"><a href="#cb9-10"></a>             <span class="dt">a =</span> <span class="dv">1</span>,</span>
+<span id="cb9-11"><a href="#cb9-11"></a>             <span class="dt">b =</span> <span class="dv">1869</span>,</span>
+<span id="cb9-12"><a href="#cb9-12"></a>             <span class="dt">c =</span> <span class="dv">1</span>,</span>
+<span id="cb9-13"><a href="#cb9-13"></a>             <span class="dt">d =</span> <span class="dv">1869</span>,</span>
+<span id="cb9-14"><a href="#cb9-14"></a>             <span class="dt">h =</span> <span class="dv">5</span>)</span>
+<span id="cb9-15"><a href="#cb9-15"></a><span class="kw">plotMatricesAverage</span>(<span class="dt">cds =</span> clusteredCds,</span>
+<span id="cb9-16"><a href="#cb9-16"></a>                    <span class="dt">type =</span> <span class="st">&quot;originalClusters&quot;</span>,</span>
+<span id="cb9-17"><a href="#cb9-17"></a>                    <span class="dt">directory =</span> <span class="st">&quot;/Users/jp/projects/omer/riboHighTempOOP/figures/clustered&quot;</span>,</span>
+<span id="cb9-18"><a href="#cb9-18"></a>                    <span class="dt">a =</span> <span class="dv">1</span>,</span>
+<span id="cb9-19"><a href="#cb9-19"></a>                    <span class="dt">b =</span> <span class="dv">1869</span>,</span>
+<span id="cb9-20"><a href="#cb9-20"></a>                    <span class="dt">c =</span> <span class="dv">1</span>,</span>
+<span id="cb9-21"><a href="#cb9-21"></a>                    <span class="dt">d =</span> <span class="dv">1869</span>,</span>
+<span id="cb9-22"><a href="#cb9-22"></a>                    <span class="dt">h =</span> <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># trim clusters</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a>trimmedClusters =<span class="st"> </span><span class="kw">trimClusters</span>(<span class="dt">clusteredCds =</span> clusteredCds)</span>
+<span id="cb10-3"><a href="#cb10-3"></a></span>
+<span id="cb10-4"><a href="#cb10-4"></a><span class="kw">getClusterStats</span>(trimmedClusters)</span>
+<span id="cb10-5"><a href="#cb10-5"></a><span class="kw">getDuplexStats</span>(trimmedClusters)</span>
+<span id="cb10-6"><a href="#cb10-6"></a></span>
+<span id="cb10-7"><a href="#cb10-7"></a></span>
+<span id="cb10-8"><a href="#cb10-8"></a><span class="kw">plotMatrices</span>(<span class="dt">cds =</span> trimmedClusters,</span>
+<span id="cb10-9"><a href="#cb10-9"></a>             <span class="dt">type =</span> <span class="st">&quot;trimmedClusters&quot;</span>,</span>
+<span id="cb10-10"><a href="#cb10-10"></a>             <span class="dt">directory =</span> <span class="st">&quot;/Users/jp/projects/omer/riboHighTempOOP/figures/trimmed&quot;</span>,</span>
+<span id="cb10-11"><a href="#cb10-11"></a>             <span class="dt">a =</span> <span class="dv">1</span>,</span>
+<span id="cb10-12"><a href="#cb10-12"></a>             <span class="dt">b =</span> <span class="dv">1869</span>,</span>
+<span id="cb10-13"><a href="#cb10-13"></a>             <span class="dt">c =</span> <span class="dv">1</span>,</span>
+<span id="cb10-14"><a href="#cb10-14"></a>             <span class="dt">d =</span> <span class="dv">1869</span>,</span>
+<span id="cb10-15"><a href="#cb10-15"></a>             <span class="dt">h =</span> <span class="dv">5</span>)</span>
+<span id="cb10-16"><a href="#cb10-16"></a></span>
+<span id="cb10-17"><a href="#cb10-17"></a><span class="kw">plotMatricesAverage</span>(<span class="dt">cds =</span> trimmedClusters,</span>
+<span id="cb10-18"><a href="#cb10-18"></a>                    <span class="dt">type =</span> <span class="st">&quot;trimmedClusters&quot;</span>,</span>
+<span id="cb10-19"><a href="#cb10-19"></a>                    <span class="dt">directory =</span> <span class="st">&quot;/Users/jp/projects/omer/riboHighTempOOP/figures/trimmed&quot;</span>,</span>
+<span id="cb10-20"><a href="#cb10-20"></a>                    <span class="dt">a =</span> <span class="dv">1</span>,</span>
+<span id="cb10-21"><a href="#cb10-21"></a>                    <span class="dt">b =</span> <span class="dv">1869</span>,</span>
+<span id="cb10-22"><a href="#cb10-22"></a>                    <span class="dt">c =</span> <span class="dv">1</span>,</span>
+<span id="cb10-23"><a href="#cb10-23"></a>                    <span class="dt">d =</span> <span class="dv">1869</span>,</span>
+<span id="cb10-24"><a href="#cb10-24"></a>                    <span class="dt">h =</span> <span class="dv">5</span>)</span>
+<span id="cb10-25"><a href="#cb10-25"></a></span>
+<span id="cb10-26"><a href="#cb10-26"></a></span>
+<span id="cb10-27"><a href="#cb10-27"></a><span class="kw">plotMatricesAverage</span>(<span class="dt">cds =</span> trimmedClusters,</span>
+<span id="cb10-28"><a href="#cb10-28"></a>                    <span class="dt">type =</span> <span class="st">&quot;superClusters&quot;</span>,</span>
+<span id="cb10-29"><a href="#cb10-29"></a>                    <span class="dt">directory =</span> <span class="st">&quot;/Users/jp/projects/omer/riboHighTempOOP/figures/superClusters&quot;</span>,</span>
+<span id="cb10-30"><a href="#cb10-30"></a>                    <span class="dt">a =</span> <span class="dv">1</span>,</span>
+<span id="cb10-31"><a href="#cb10-31"></a>                    <span class="dt">b =</span> <span class="dv">1869</span>,</span>
+<span id="cb10-32"><a href="#cb10-32"></a>                    <span class="dt">c =</span> <span class="dv">1</span>,</span>
+<span id="cb10-33"><a href="#cb10-33"></a>                    <span class="dt">d =</span> <span class="dv">1869</span>,</span>
+<span id="cb10-34"><a href="#cb10-34"></a>                    <span class="dt">h =</span> <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a></span>
+<span id="cb11-2"><a href="#cb11-2"></a></span>
+<span id="cb11-3"><a href="#cb11-3"></a>known18S =<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;knownStructure.txt&quot;</span>,</span>
+<span id="cb11-4"><a href="#cb11-4"></a>                      <span class="dt">header =</span> F)</span>
+<span id="cb11-5"><a href="#cb11-5"></a></span>
+<span id="cb11-6"><a href="#cb11-6"></a><span class="co">#make a matrix from the tables</span></span>
+<span id="cb11-7"><a href="#cb11-7"></a></span>
+<span id="cb11-8"><a href="#cb11-8"></a><span class="co">#make a matrix of the known interactions</span></span>
+<span id="cb11-9"><a href="#cb11-9"></a><span class="kw">head</span>(known18S)</span>
+<span id="cb11-10"><a href="#cb11-10"></a>knownMat =<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dt">nrow =</span> <span class="dv">1869</span>, <span class="dt">ncol =</span> <span class="dv">1869</span>)</span>
+<span id="cb11-11"><a href="#cb11-11"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(known18S)){</span>
+<span id="cb11-12"><a href="#cb11-12"></a>    knownMat[ known18S<span class="op">$</span>V1[i]<span class="op">:</span>(known18S<span class="op">$</span>V1[i]),known18S<span class="op">$</span>V2[i]<span class="op">:</span>(known18S<span class="op">$</span>V2[i])] =</span>
+<span id="cb11-13"><a href="#cb11-13"></a><span class="st">        </span>knownMat[known18S<span class="op">$</span>V1[i]<span class="op">:</span>(known18S<span class="op">$</span>V1[i]),known18S<span class="op">$</span>V2[i]<span class="op">:</span>(known18S<span class="op">$</span>V2[i])] <span class="op">+</span><span class="dv">1</span></span>
+<span id="cb11-14"><a href="#cb11-14"></a>}</span>
+<span id="cb11-15"><a href="#cb11-15"></a></span>
+<span id="cb11-16"><a href="#cb11-16"></a></span>
+<span id="cb11-17"><a href="#cb11-17"></a>knowClusteredCds =<span class="st"> </span><span class="kw">compareKnown</span>(trimmedClusters,</span>
+<span id="cb11-18"><a href="#cb11-18"></a>                                knownMat,</span>
+<span id="cb11-19"><a href="#cb11-19"></a>                                <span class="st">&quot;ENSG000000XXXXX_NR003286-2_RN18S1_rRNA&quot;</span>,</span>
+<span id="cb11-20"><a href="#cb11-20"></a>                                <span class="st">&quot;trimmedClusters&quot;</span>)</span>
+<span id="cb11-21"><a href="#cb11-21"></a></span>
+<span id="cb11-22"><a href="#cb11-22"></a></span>
+<span id="cb11-23"><a href="#cb11-23"></a><span class="kw">plotMatricesAverage</span>(<span class="dt">cds =</span> knowClusteredCds,</span>
+<span id="cb11-24"><a href="#cb11-24"></a>                    <span class="dt">type =</span> <span class="st">&quot;KnownAndNovel&quot;</span>,</span>
+<span id="cb11-25"><a href="#cb11-25"></a>                    <span class="dt">directory =</span> <span class="st">&quot;/Users/jp/projects/omer/riboHighTempOOP/figures/knownAndNovel&quot;</span>,</span>
+<span id="cb11-26"><a href="#cb11-26"></a>                    <span class="dt">a =</span> <span class="dv">1</span>,</span>
+<span id="cb11-27"><a href="#cb11-27"></a>                    <span class="dt">b =</span> <span class="dv">1869</span>,</span>
+<span id="cb11-28"><a href="#cb11-28"></a>                    <span class="dt">c =</span> <span class="dv">1</span>,</span>
+<span id="cb11-29"><a href="#cb11-29"></a>                    <span class="dt">d =</span> <span class="dv">1869</span>,</span>
+<span id="cb11-30"><a href="#cb11-30"></a>                    <span class="dt">h =</span> <span class="dv">5</span>)</span>
+<span id="cb11-31"><a href="#cb11-31"></a><span class="kw">plotMatrices</span>(<span class="dt">cds =</span> knowClusteredCds,</span>
+<span id="cb11-32"><a href="#cb11-32"></a>                    <span class="dt">type =</span> <span class="st">&quot;KnownAndNovel&quot;</span>,</span>
+<span id="cb11-33"><a href="#cb11-33"></a>                    <span class="dt">directory =</span> <span class="st">&quot;/Users/jp/projects/omer/riboHighTempOOP/figures/knownAndNovel&quot;</span>,</span>
+<span id="cb11-34"><a href="#cb11-34"></a>                    <span class="dt">a =</span> <span class="dv">1</span>,</span>
+<span id="cb11-35"><a href="#cb11-35"></a>                    <span class="dt">b =</span> <span class="dv">1869</span>,</span>
+<span id="cb11-36"><a href="#cb11-36"></a>                    <span class="dt">c =</span> <span class="dv">1</span>,</span>
+<span id="cb11-37"><a href="#cb11-37"></a>                    <span class="dt">d =</span> <span class="dv">1869</span>,</span>
+<span id="cb11-38"><a href="#cb11-38"></a>                    <span class="dt">h =</span> <span class="dv">5</span>)</span>
+<span id="cb11-39"><a href="#cb11-39"></a><span class="kw">plotMatricesAverage</span>(<span class="dt">cds =</span> knowClusteredCds,</span>
+<span id="cb11-40"><a href="#cb11-40"></a>                    <span class="dt">type =</span> <span class="st">&quot;novel&quot;</span>,</span>
+<span id="cb11-41"><a href="#cb11-41"></a>                    <span class="dt">directory =</span> <span class="st">&quot;/Users/jp/projects/omer/riboHighTempOOP/figures/novel&quot;</span>,</span>
+<span id="cb11-42"><a href="#cb11-42"></a>                    <span class="dt">a =</span> <span class="dv">1</span>,</span>
+<span id="cb11-43"><a href="#cb11-43"></a>                    <span class="dt">b =</span> <span class="dv">1869</span>,</span>
+<span id="cb11-44"><a href="#cb11-44"></a>                    <span class="dt">c =</span> <span class="dv">1</span>,</span>
+<span id="cb11-45"><a href="#cb11-45"></a>                    <span class="dt">d =</span> <span class="dv">1869</span>,</span>
+<span id="cb11-46"><a href="#cb11-46"></a>                    <span class="dt">h =</span> <span class="dv">5</span>)</span>
+<span id="cb11-47"><a href="#cb11-47"></a><span class="kw">plotMatrices</span>(<span class="dt">cds =</span>   knowClusteredCds,</span>
+<span id="cb11-48"><a href="#cb11-48"></a>                    <span class="dt">type =</span> <span class="st">&quot;novel&quot;</span>,</span>
+<span id="cb11-49"><a href="#cb11-49"></a>                    <span class="dt">directory =</span> <span class="st">&quot;/Users/jp/projects/omer/riboHighTempOOP/figures/novel&quot;</span>,</span>
+<span id="cb11-50"><a href="#cb11-50"></a>                    <span class="dt">a =</span> <span class="dv">1</span>,</span>
+<span id="cb11-51"><a href="#cb11-51"></a>                    <span class="dt">b =</span> <span class="dv">1869</span>,</span>
+<span id="cb11-52"><a href="#cb11-52"></a>                    <span class="dt">c =</span> <span class="dv">1</span>,</span>
+<span id="cb11-53"><a href="#cb11-53"></a>                    <span class="dt">d =</span> <span class="dv">1869</span>,</span>
+<span id="cb11-54"><a href="#cb11-54"></a>                    <span class="dt">h =</span> <span class="dv">5</span>)</span>
+<span id="cb11-55"><a href="#cb11-55"></a></span>
+<span id="cb11-56"><a href="#cb11-56"></a><span class="kw">plotMatrices</span>(<span class="dt">cds =</span> knowClusteredCds,</span>
+<span id="cb11-57"><a href="#cb11-57"></a>                    <span class="dt">type =</span> <span class="st">&quot;known&quot;</span>,</span>
+<span id="cb11-58"><a href="#cb11-58"></a>                    <span class="dt">directory =</span> <span class="st">&quot;/Users/jp/projects/omer/riboHighTempOOP/figures/can&quot;</span>,</span>
+<span id="cb11-59"><a href="#cb11-59"></a>                    <span class="dt">a =</span> <span class="dv">1</span>,</span>
+<span id="cb11-60"><a href="#cb11-60"></a>                    <span class="dt">b =</span> <span class="dv">1869</span>,</span>
+<span id="cb11-61"><a href="#cb11-61"></a>                    <span class="dt">c =</span> <span class="dv">1</span>,</span>
+<span id="cb11-62"><a href="#cb11-62"></a>                    <span class="dt">d =</span> <span class="dv">1869</span>,</span>
+<span id="cb11-63"><a href="#cb11-63"></a>                    <span class="dt">h =</span> <span class="dv">5</span>)</span>
+<span id="cb11-64"><a href="#cb11-64"></a></span>
+<span id="cb11-65"><a href="#cb11-65"></a></span>
+<span id="cb11-66"><a href="#cb11-66"></a><span class="kw">plotMatricesAverage</span>(<span class="dt">cds =</span> knowClusteredCds,</span>
+<span id="cb11-67"><a href="#cb11-67"></a>                    <span class="dt">type =</span> <span class="st">&quot;known&quot;</span>,</span>
+<span id="cb11-68"><a href="#cb11-68"></a>                    <span class="dt">directory =</span> <span class="st">&quot;/Users/jp/projects/omer/riboHighTempOOP/figures/can&quot;</span>,</span>
+<span id="cb11-69"><a href="#cb11-69"></a>                    <span class="dt">a =</span> <span class="dv">1</span>,</span>
+<span id="cb11-70"><a href="#cb11-70"></a>                    <span class="dt">b =</span> <span class="dv">1869</span>,</span>
+<span id="cb11-71"><a href="#cb11-71"></a>                    <span class="dt">c =</span> <span class="dv">1</span>,</span>
+<span id="cb11-72"><a href="#cb11-72"></a>                    <span class="dt">d =</span> <span class="dv">1869</span>,</span>
+<span id="cb11-73"><a href="#cb11-73"></a>                    <span class="dt">h =</span> <span class="dv">5</span>)</span>
+<span id="cb11-74"><a href="#cb11-74"></a></span>
+<span id="cb11-75"><a href="#cb11-75"></a></span>
+<span id="cb11-76"><a href="#cb11-76"></a></span>
+<span id="cb11-77"><a href="#cb11-77"></a></span>
+<span id="cb11-78"><a href="#cb11-78"></a><span class="co">#get statistics of duplex level data</span></span>
+<span id="cb11-79"><a href="#cb11-79"></a><span class="kw">getDuplexStats</span>(knowClusteredCds)</span>
+<span id="cb11-80"><a href="#cb11-80"></a></span>
+<span id="cb11-81"><a href="#cb11-81"></a><span class="co">#get statistics of clusters</span></span>
+<span id="cb11-82"><a href="#cb11-82"></a><span class="kw">getClusterStats</span>(knowClusteredCds)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co"># fold the trimmed clusters</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a>foldedCds =<span class="st"> </span><span class="kw">comradesFoldedDataSet</span>(knowClusteredCds,</span>
+<span id="cb12-3"><a href="#cb12-3"></a>                                <span class="dt">rna =</span> rna,</span>
+<span id="cb12-4"><a href="#cb12-4"></a>                                <span class="dt">rnaRefs =</span> rnaRefs)</span>
+<span id="cb12-5"><a href="#cb12-5"></a></span>
+<span id="cb12-6"><a href="#cb12-6"></a><span class="kw">library</span>(seqinr)</span>
+<span id="cb12-7"><a href="#cb12-7"></a></span>
+<span id="cb12-8"><a href="#cb12-8"></a></span>
+<span id="cb12-9"><a href="#cb12-9"></a>rnaRefs =<span class="st"> </span><span class="kw">list</span>()</span>
+<span id="cb12-10"><a href="#cb12-10"></a>rnaRefs[[rna]] =<span class="st"> </span><span class="kw">read.fasta</span>(<span class="st">&quot;18S.fasta&quot;</span>)</span></code></pre></div>
 </div>
     </section>
   </div>

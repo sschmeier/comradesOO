@@ -186,10 +186,10 @@ sampleTable2 = data.frame("fileName" = paste("/path/to/sample",1:6,".hyb", sep =
 
 
 ## Get the name of RNA
-rna = c("ENSG000000XXXXX_NR003286-2_RN18S1_rRNA")
+rna = c("ENSG00000075624_ENST00000331789_ACTB_mRNA")
 
 rnaSize = list()
-rnaSize[[rna]] = 1869
+rnaSize[[rna]] = 2554
 
 ```
 
@@ -208,40 +208,40 @@ cds = comradesDataSet(rnas = rna,
 # plot matrices 
 plotMatrices(cds = cds,
              type = "noHost",
-             directory = "/Users/jp/projects/omer/riboHighTempOOP/figures/raw",
+             directory = "figures/raw",
              a = 1,
-             b = size,
+             b = rnaSize[[rna]],
              c = 1,
-             d = size,
+             d = rnaSize[[rna]],
              h = 5)
 # plot matrices with replicates combined
 plotMatricesAverage(cds = cds,
                     type = "noHost",
-                    directory = "/Users/jp/projects/omer/riboHighTempOOP/figures/raw",
+                    directory = "figures/raw",
                     a = 1,
-                    b = size,
+                    b = rnaSize[[rna]],
                     c = 1,
-                    d = size,
+                    d = rnaSize[[rna]],
                     h = 5)
 
 
 # plot matrices
 plotMatrices(cds = cds,
              type = "original",
-             directory = "/Users/jp/projects/omer/riboHighTempOOP/figures/raw",
+             directory = "figures/raw",
              a = 1,
-             b = size,
+             b = rnaSize[[rna]],
              c = 1,
-             d = size,
+             d = rnaSize[[rna]],
              h = 5)
 
 plotMatricesAverage(cds = cds,
                     type = "original",
-                    directory = "/Users/jp/projects/omer/riboHighTempOOP/figures/raw",
+                    directory = "figures/raw",
                     a = 1,
-                    b = size,
+                    b = rnaSize[[rna]],
                     c = 1,
-                    d = size,
+                    d = rnaSize[[rna]],
                     h = 5)
 
 
@@ -259,19 +259,19 @@ clusteredCds = comradesClusteredDataSet(cds = cds,
 
 plotMatrices(cds = clusteredCds,
              type = "originalClusters",
-             directory = "/Users/jp/projects/omer/riboHighTempOOP/figures/clustered",
+             directory = "figures/clustered",
              a = 1,
-             b = 1869,
+             b = rnaSize[[rna]],
              c = 1,
-             d = 1869,
+             d = rnaSize[[rna]],
              h = 5)
 plotMatricesAverage(cds = clusteredCds,
                     type = "originalClusters",
-                    directory = "/Users/jp/projects/omer/riboHighTempOOP/figures/clustered",
+                    directory = "figures/clustered",
                     a = 1,
-                    b = 1869,
+                    b = rnaSize[[rna]],
                     c = 1,
-                    d = 1869,
+                    d = rnaSize[[rna]],
                     h = 5)
 ```
 
@@ -287,30 +287,30 @@ getDuplexStats(trimmedClusters)
 
 plotMatrices(cds = trimmedClusters,
              type = "trimmedClusters",
-             directory = "/Users/jp/projects/omer/riboHighTempOOP/figures/trimmed",
+             directory = "figures/trimmed",
              a = 1,
-             b = 1869,
+             b = rnaSize[[rna]],
              c = 1,
-             d = 1869,
+             d = rnaSize[[rna]],
              h = 5)
 
 plotMatricesAverage(cds = trimmedClusters,
                     type = "trimmedClusters",
-                    directory = "/Users/jp/projects/omer/riboHighTempOOP/figures/trimmed",
+                    directory = "figures/trimmed",
                     a = 1,
-                    b = 1869,
+                    b = rnaSize[[rna]],
                     c = 1,
-                    d = 1869,
+                    d = rnaSize[[rna]],
                     h = 5)
 
 
 plotMatricesAverage(cds = trimmedClusters,
                     type = "superClusters",
-                    directory = "/Users/jp/projects/omer/riboHighTempOOP/figures/superClusters",
+                    directory = "figures/superClusters",
                     a = 1,
-                    b = 1869,
+                    b = rnaSize[[rna]],
                     c = 1,
-                    d = 1869,
+                    d = rnaSize[[rna]],
                     h = 5)
 
 ```
@@ -327,7 +327,7 @@ known18S = read.table("knownStructure.txt",
 
 #make a matrix of the known interactions
 head(known18S)
-knownMat = matrix(0, nrow = 1869, ncol = 1869)
+knownMat = matrix(0, nrow = rnaSize[[rna]], ncol = rnaSize[[rna]])
 for(i in 1:nrow(known18S)){
     knownMat[ known18S$V1[i]:(known18S$V1[i]),known18S$V2[i]:(known18S$V2[i])] =
         knownMat[known18S$V1[i]:(known18S$V1[i]),known18S$V2[i]:(known18S$V2[i])] +1
@@ -336,60 +336,60 @@ for(i in 1:nrow(known18S)){
 
 knowClusteredCds = compareKnown(trimmedClusters,
                                 knownMat,
-                                "ENSG000000XXXXX_NR003286-2_RN18S1_rRNA",
+                                "ENSG00000075624_ENST00000331789_ACTB_mRNA",
                                 "trimmedClusters")
 
 
 plotMatricesAverage(cds = knowClusteredCds,
                     type = "KnownAndNovel",
-                    directory = "/Users/jp/projects/omer/riboHighTempOOP/figures/knownAndNovel",
+                    directory = "figures/knownAndNovel",
                     a = 1,
-                    b = 1869,
+                    b = rnaSize[[rna]],
                     c = 1,
-                    d = 1869,
+                    d = rnaSize[[rna]],
                     h = 5)
 plotMatrices(cds = knowClusteredCds,
                     type = "KnownAndNovel",
-                    directory = "/Users/jp/projects/omer/riboHighTempOOP/figures/knownAndNovel",
+                    directory = "figures/knownAndNovel",
                     a = 1,
-                    b = 1869,
+                    b = rnaSize[[rna]],
                     c = 1,
-                    d = 1869,
+                    d = rnaSize[[rna]],
                     h = 5)
 plotMatricesAverage(cds = knowClusteredCds,
                     type = "novel",
-                    directory = "/Users/jp/projects/omer/riboHighTempOOP/figures/novel",
+                    directory = "figures/novel",
                     a = 1,
-                    b = 1869,
+                    b = rnaSize[[rna]],
                     c = 1,
-                    d = 1869,
+                    d = rnaSize[[rna]],
                     h = 5)
 plotMatrices(cds =   knowClusteredCds,
                     type = "novel",
-                    directory = "/Users/jp/projects/omer/riboHighTempOOP/figures/novel",
+                    directory = "figures/novel",
                     a = 1,
-                    b = 1869,
+                    b = rnaSize[[rna]],
                     c = 1,
-                    d = 1869,
+                    d = rnaSize[[rna]],
                     h = 5)
 
 plotMatrices(cds = knowClusteredCds,
                     type = "known",
-                    directory = "/Users/jp/projects/omer/riboHighTempOOP/figures/can",
+                    directory = "figures/can",
                     a = 1,
-                    b = 1869,
+                    b = rnaSize[[rna]],
                     c = 1,
-                    d = 1869,
+                    d = rnaSize[[rna]],
                     h = 5)
 
 
 plotMatricesAverage(cds = knowClusteredCds,
                     type = "known",
-                    directory = "/Users/jp/projects/omer/riboHighTempOOP/figures/can",
+                    directory = "figures/can",
                     a = 1,
-                    b = 1869,
+                    b = rnaSize[[rna]],
                     c = 1,
-                    d = 1869,
+                    d = rnaSize[[rna]],
                     h = 5)
 
 
@@ -417,7 +417,7 @@ library(seqinr)
 
 
 rnaRefs = list()
-rnaRefs[[rna]] = read.fasta("18S.fasta")
+rnaRefs[[rna]] = read.fasta("ACTB.fasta")
 
 
 

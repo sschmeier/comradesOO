@@ -80,6 +80,9 @@ setGeneric("getData", function(x, rna,data, type ) standardGeneric("getData"))
 setMethod("getData", "comradesDataSet", function( x, rna,data, type )  
     slot(cds, data)[[rna]][[type]] )
 
+
+
+
 # comradesDataSet
 setGeneric("rnas", function(x) standardGeneric("rnas"))
 setMethod("rnas", "comradesDataSet", function(x)  x@rnas)

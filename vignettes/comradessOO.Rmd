@@ -320,22 +320,13 @@ plotMatricesAverage(cds = trimmedClusters,
 ```{r, eval = F}
 
 
-known18S = read.table("knownStructure.txt",
+knownMatrix = read.table("knownStructure.txt",
                       header = F)
 
-#make a matrix from the tables
-
-#make a matrix of the known interactions
-head(known18S)
-knownMat = matrix(0, nrow = rnaSize[[rna]], ncol = rnaSize[[rna]])
-for(i in 1:nrow(known18S)){
-    knownMat[ known18S$V1[i]:(known18S$V1[i]),known18S$V2[i]:(known18S$V2[i])] =
-        knownMat[known18S$V1[i]:(known18S$V1[i]),known18S$V2[i]:(known18S$V2[i])] +1
-}
 
 
 knowClusteredCds = compareKnown(trimmedClusters,
-                                knownMat,
+                                knownMatrix,
                                 "ENSG00000075624_ENST00000331789_ACTB_mRNA",
                                 "trimmedClusters")
 

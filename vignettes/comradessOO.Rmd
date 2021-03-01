@@ -174,6 +174,7 @@ detailed explanation of the class with slots etc
 
 # Quick Start Workflow
 
+## Setting up
 
 ```{r, eval = F}
 
@@ -191,6 +192,8 @@ rnaSize = list()
 rnaSize[[rna]] = 1869
 
 ```
+
+## Reading in data from Hyb
 
 ```{r, eval = F}
 
@@ -244,6 +247,9 @@ plotMatricesAverage(cds = cds,
 
 ```
 
+
+## Reading in data from Hyb
+
 ```{r, eval = F}
 #make comradesDataSet object and cluster
 clusteredCds = comradesClusteredDataSet(cds = cds,
@@ -269,6 +275,7 @@ plotMatricesAverage(cds = clusteredCds,
                     h = 5)
 ```
 
+## Trim clusters
 
 ```{r, eval = F}
 # trim clusters
@@ -308,6 +315,7 @@ plotMatricesAverage(cds = trimmedClusters,
 
 ```
 
+## Compare to known structure
 
 ```{r, eval = F}
 
@@ -396,6 +404,8 @@ getClusterStats(knowClusteredCds)
 
 ```
 
+
+## fold clusters 
 
 ```{r, eval = F}
 # fold the trimmed clusters

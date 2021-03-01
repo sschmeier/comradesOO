@@ -93,23 +93,42 @@ devtools::install_github("JLP-BioInf/comradesOO")
     + R4RNA
     
     
-
 ## Inputs
 
-* Sample Table
+
 * Hyb output files
+
+
+    The hyb output files
+
+* Sample Table
+
+    
+    Must have 4 columns, fileName (the full path and file name of the input 
+    hyb file for each sample ), group ("s" - sample or "c" - control), 
+    sample (1,2,3, etc), sampleName (must be unique).
+    
+
+    
 * RNA of interest (as annotated in the Hyb output files)
+
+    
+    The name of the RNA as shown the in the Hyb files. 
+   
 * RNA length
+
+
+    rnaSize named list - The sizes (nt) of the RNAs of interest, the list
+    elements must have same names as the \code{rnas} vector and each each
+    
+    
 * RNA Sequence (if performing folding)
 
 
 
-# comradesOO Package
+# comradesOO 
 
-* figures of what the package does  - clustering - folding 
-* links to each of the classes 
-* explanation of slots 
-* methods
+
 
 
 # 3 classes
@@ -128,6 +147,8 @@ detailed explanation of the class with slots etc
 
 detailed explanation of the class with slots etc
 
-# Standard Workflow
+# Quick Start Workflow
 
-code for a standard workflow. 
+See `vignette(comradesOO)`
+
+

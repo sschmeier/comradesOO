@@ -104,8 +104,7 @@ comradesDataSet <- function(rnas,
     print(" ***** Reading SampleTable ****** ")
 
     # Read in sample table
-    sampleTable = read.table(sampleTable,
-                             header = T, stringsAsFactors = F)
+    sampleTable = sampleTable
     #check for more than two samples
     if( nrow(sampleTable) < 2 ){
         stop( "The sample Table must contain at least 1

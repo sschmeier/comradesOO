@@ -117,24 +117,42 @@ devtools::install_github("JLP-BioInf/comradesOO")
 
 ## Inputs
 
-* Sample Table
+
 * Hyb output files
+
+
+    The hyb output files
+
+* Sample Table
+
+    
+    Must have 4 columns, fileName (the full path and file name of the input 
+    hyb file for each sample ), group ("s" - sample or "c" - control), 
+    sample (1,2,3, etc), sampleName (must be unique).
+    
+
+    
 * RNA of interest (as annotated in the Hyb output files)
+
+    
+    The name of the RNA as shown the in the Hyb files. 
+   
 * RNA length
+
+
+    rnaSize named list - The sizes (nt) of the RNAs of interest, the list
+    elements must have same names as the \code{rnas} vector and each each
+    
+    
 * RNA Sequence (if performing folding)
 
 
 
 
+# comradesOO
 
 
 
-# comradesOO Package
-
-* figures of what the package does  - clustering - folding 
-* links to each of the classes 
-* explanation of slots 
-* methods
 
 
 
@@ -154,6 +172,249 @@ detailed explanation of the class with slots etc
 
 detailed explanation of the class with slots etc
 
-# Standard Workflow
+# Quick Start Workflow
 
-code for a standard workflow. 
+
+```{r, eval = F}
+
+## Get the sampleTable
+sampleTable2 = data.frame("fileName" = paste("/path/to/sample",1:6,".hyb", sep = ""),
+                          "group" = c("c","s","c","s","c","s"),
+                          "sample" = c(1,1,2,2,3,3),
+                          "sampleName" = paste("sample",1:6, sep = ""))
+
+
+## Get the name of RNA
+rna = c("ENSG000000XXXXX_NR003286-2_RN18S1_rRNA")
+
+rnaSize = list()
+rnaSize[[rna]] = 1869
+
+```
+
+```{r, eval = F}
+
+#make comradesDataSet object
+cds = comradesDataSet(rnas = rna,
+                      rnaSize = rnaSize,
+                      sampleTable =     sampleTable2)
+
+
+
+
+# plot matrices 
+plotMatrices(cds = cds,
+             type = "noHost",
+             directory = "/Users/jp/projects/omer/riboHighTempOOP/figures/raw",
+             a = 1,
+             b = size,
+             c = 1,
+             d = size,
+             h = 5)
+# plot matrices with replicates combined
+plotMatricesAverage(cds = cds,
+                    type = "noHost",
+                    directory = "/Users/jp/projects/omer/riboHighTempOOP/figures/raw",
+                    a = 1,
+                    b = size,
+                    c = 1,
+                    d = size,
+                    h = 5)
+
+
+# plot matrices
+plotMatrices(cds = cds,
+             type = "original",
+             directory = "/Users/jp/projects/omer/riboHighTempOOP/figures/raw",
+             a = 1,
+             b = size,
+             c = 1,
+             d = size,
+             h = 5)
+
+plotMatricesAverage(cds = cds,
+                    type = "original",
+                    directory = "/Users/jp/projects/omer/riboHighTempOOP/figures/raw",
+                    a = 1,
+                    b = size,
+                    c = 1,
+                    d = size,
+                    h = 5)
+
+
+```
+
+```{r, eval = F}
+#make comradesDataSet object and cluster
+clusteredCds = comradesClusteredDataSet(cds = cds,
+                                        cores = 3)
+
+
+
+plotMatrices(cds = clusteredCds,
+             type = "originalClusters",
+             directory = "/Users/jp/projects/omer/riboHighTempOOP/figures/clustered",
+             a = 1,
+             b = 1869,
+             c = 1,
+             d = 1869,
+             h = 5)
+plotMatricesAverage(cds = clusteredCds,
+                    type = "originalClusters",
+                    directory = "/Users/jp/projects/omer/riboHighTempOOP/figures/clustered",
+                    a = 1,
+                    b = 1869,
+                    c = 1,
+                    d = 1869,
+                    h = 5)
+```
+
+
+```{r, eval = F}
+# trim clusters
+trimmedClusters = trimClusters(clusteredCds = clusteredCds)
+
+getClusterStats(trimmedClusters)
+getDuplexStats(trimmedClusters)
+
+
+plotMatrices(cds = trimmedClusters,
+             type = "trimmedClusters",
+             directory = "/Users/jp/projects/omer/riboHighTempOOP/figures/trimmed",
+             a = 1,
+             b = 1869,
+             c = 1,
+             d = 1869,
+             h = 5)
+
+plotMatricesAverage(cds = trimmedClusters,
+                    type = "trimmedClusters",
+                    directory = "/Users/jp/projects/omer/riboHighTempOOP/figures/trimmed",
+                    a = 1,
+                    b = 1869,
+                    c = 1,
+                    d = 1869,
+                    h = 5)
+
+
+plotMatricesAverage(cds = trimmedClusters,
+                    type = "superClusters",
+                    directory = "/Users/jp/projects/omer/riboHighTempOOP/figures/superClusters",
+                    a = 1,
+                    b = 1869,
+                    c = 1,
+                    d = 1869,
+                    h = 5)
+
+```
+
+
+```{r, eval = F}
+
+
+known18S = read.table("knownStructure.txt",
+                      header = F)
+
+#make a matrix from the tables
+
+#make a matrix of the known interactions
+head(known18S)
+knownMat = matrix(0, nrow = 1869, ncol = 1869)
+for(i in 1:nrow(known18S)){
+    knownMat[ known18S$V1[i]:(known18S$V1[i]),known18S$V2[i]:(known18S$V2[i])] =
+        knownMat[known18S$V1[i]:(known18S$V1[i]),known18S$V2[i]:(known18S$V2[i])] +1
+}
+
+
+knowClusteredCds = compareKnown(trimmedClusters,
+                                knownMat,
+                                "ENSG000000XXXXX_NR003286-2_RN18S1_rRNA",
+                                "trimmedClusters")
+
+
+plotMatricesAverage(cds = knowClusteredCds,
+                    type = "KnownAndNovel",
+                    directory = "/Users/jp/projects/omer/riboHighTempOOP/figures/knownAndNovel",
+                    a = 1,
+                    b = 1869,
+                    c = 1,
+                    d = 1869,
+                    h = 5)
+plotMatrices(cds = knowClusteredCds,
+                    type = "KnownAndNovel",
+                    directory = "/Users/jp/projects/omer/riboHighTempOOP/figures/knownAndNovel",
+                    a = 1,
+                    b = 1869,
+                    c = 1,
+                    d = 1869,
+                    h = 5)
+plotMatricesAverage(cds = knowClusteredCds,
+                    type = "novel",
+                    directory = "/Users/jp/projects/omer/riboHighTempOOP/figures/novel",
+                    a = 1,
+                    b = 1869,
+                    c = 1,
+                    d = 1869,
+                    h = 5)
+plotMatrices(cds =   knowClusteredCds,
+                    type = "novel",
+                    directory = "/Users/jp/projects/omer/riboHighTempOOP/figures/novel",
+                    a = 1,
+                    b = 1869,
+                    c = 1,
+                    d = 1869,
+                    h = 5)
+
+plotMatrices(cds = knowClusteredCds,
+                    type = "known",
+                    directory = "/Users/jp/projects/omer/riboHighTempOOP/figures/can",
+                    a = 1,
+                    b = 1869,
+                    c = 1,
+                    d = 1869,
+                    h = 5)
+
+
+plotMatricesAverage(cds = knowClusteredCds,
+                    type = "known",
+                    directory = "/Users/jp/projects/omer/riboHighTempOOP/figures/can",
+                    a = 1,
+                    b = 1869,
+                    c = 1,
+                    d = 1869,
+                    h = 5)
+
+
+
+
+#get statistics of duplex level data
+getDuplexStats(knowClusteredCds)
+
+#get statistics of clusters
+getClusterStats(knowClusteredCds)
+
+
+```
+
+
+```{r, eval = F}
+# fold the trimmed clusters
+foldedCds = comradesFoldedDataSet(knowClusteredCds,
+                                rna = rna,
+                                rnaRefs = rnaRefs)
+
+library(seqinr)
+
+
+rnaRefs = list()
+rnaRefs[[rna]] = read.fasta("18S.fasta")
+
+
+
+```
+
+
+
+
+
+

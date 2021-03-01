@@ -18,33 +18,75 @@ Volume 80
 
 After sequencing, short reads are produced where one half of the read corresponds to one half of an RNA duplex and the other half of the reads corresponds to the other half of the RNA duplex. This package has been designed to analyse this data. The short reads need to be processed is a specific way, see the next section. 
 
+
 # COMRADES data pre-processing
 
+The quickest way to get going with the analysis of your RNA interest is to download a dataset that has previously been processed and stored in GEO:
 
-* Raw data ( .fastq ) can be downloded from: 
+* https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE154662
+
+Download the files that end in `.hyb` or `.hyb.gz` or similar. These are the the files produces by step 5 below and can be used as input to this packagae, if you do this, skip the data pre-processing section.
+
+If you would prefer to analyse the raw data see the steps below:
+
+
+1 Raw data ( .fastq ) can be downloded from: 
 
     https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE154662 or from
-    the other experiment mentioned above. Processed data can also be 
-    downloaded (If downloaded .hyb files, skip this section)
+    the other experiment mentioned above. 
 
-* Cutadapt (parameters: )
+2 Cutadapt - Trimming adapters
 
+    parameters:    -a AGATCGGAAGAGCACACGTCTGAACTCCAGTC 
+                   -A AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT
+                   --minimum-length 10 
     https://cutadapt.readthedocs.io/en/stable/
-* 2 Pear (parameters: )
+    
+3 Pear - Joining Paired-end reads
 
+    parameters:    -f R1.fastq
+                   -r R2.fastq
     https://cme.h-its.org/exelixis/web/software/pear/
-* 3 UMI Removal (parameters: )
+    
+4 collapse.py - UMI Removal 
 
+    parameters: --minreads 1
     https://readthedocs.org/projects/umi-tools/downloads/pdf/stable/
-* 4 Hyb (parameters: )
-
+    
+5  Hyb  -  Finding structural duplexes 
+    
     https://github.com/gkudla/hyb
+
+
+
+## Installation
+
+Current install is via GitHub. 
+
+```{r}
+devtools::install_github("JLP-BioInf/comradesOO")
+```
+
 
 
 ## Prerequisits 
 
-* A number of R libraries
+* R packages:
+     
+    + ggplot2
+    + reshape2
+    + GenomicRanges
+    + igraph
+    + heatmap3
+    + MASS
+    + mixtools
+    + RColorBrewer
+    + foreach
+    + doParallel
+    + R4RNA
+
 * The vienna Packagae (if performing folding)
+
 
 ## Inputs
 

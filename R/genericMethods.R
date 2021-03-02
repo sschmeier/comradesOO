@@ -27,21 +27,25 @@ setMethod("show", "comradesClusteredDataSet", function(object) {
     cat("comradesClusteredDataSet Object \n")
     cat("RNAs Analysed - ",rnas(object), "\n")
     cat("Samples Analysed - ",sampleNames(object), "\n")
+    
     types = c()
     for(i in names(hybFiles(object)[[rnas(object)[1]]])){
         types = c(types  , i)
     }
     cat("Raw data  - ", types, "\n")
+    
     types = c()
     for(i in names(matrixList(object)[[rnas(object)[1]]])){
         types = c(types  , i)
     }
     cat("Matrix Types - ", types, "\n")
+    
     types = c()
     for(i in names(clusterTableList(object)[[rnas(object)[1]]])){
         types = c(types  , i)
     }
     cat("Cluster Types - ", types, "\n")
+    
     types = c()
     for(i in names(clusterGrangesList(object)[[rnas(object)[1]]])){
         types = c(types  , i)
@@ -55,6 +59,7 @@ setMethod("show", "comradesFoldedDataSet", function(object) {
     cat("comradesFoldedDataSet Object \n")
     cat("RNAs Analysed - ",rnas(object), "\n")
     cat("Samples Analysed - ",sampleNames(object), "\n")
+    
     types = c()
     for(i in names(hybFiles(object)[[rnas(object)[1]]])){
         types = c(types  , i)

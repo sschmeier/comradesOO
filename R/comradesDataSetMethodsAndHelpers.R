@@ -9,7 +9,37 @@ NULL
 ################################################################################
 
 
+#' topTranscripts
+#'
+#' This method prints the top transcripts that have the most duplexes 
+#' assigned
+#'
+#' @param cds a \code{comradesClusteredDataSet} object
+#' 
+#' 
+#' @return Returns a \code{comradesClusteredDataSet} object
+#' 
+#' The 3 attributes matrixList, clusterTableList and clusterGrangesList 
+#' will gain the \code{types} "superClusters" and "trimmedClusters"
+#' 
+#' @export
+#' 
+setGeneric("topTranscripts",
+           function(cds,ntop=10, ...) standardGeneric("topTranscripts" ) )
 
+setMethod("topTranscripts",
+          "comradesDataSet",
+          function(cds,ntop= 10)  {
+              c = group(cds)[["s"]]
+              vect = c()
+              for(i in c){
+                  vect = c(vect, 
+                           hybFiles(cds)[["all"]][["all"]][[i]]$V4,
+                           hybFiles(cds)[["all"]][["all"]][[i]]$V10)
+              }
+              x = table(vect)[order(table(vect), decreasing = T)]
+              x[1:ntop]
+          })
 
 ################################################################################
 # Swapping and subsetting

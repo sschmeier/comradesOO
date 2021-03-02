@@ -248,7 +248,7 @@ plotMatricesAverage(cds = cds,
 ```
 
 
-## Reading in data from Hyb
+## Cluster the duplexes
 
 ```{r, eval = F}
 #make comradesDataSet object and cluster

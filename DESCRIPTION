@@ -21,7 +21,10 @@ Imports:
     RColorBrewer,
     foreach,
     doParallel,
-    R4RNA
+    reshape2,
+    R4RNA,
+    RColorBrewer,
+    heatmap3
 RoxygenNote: 7.1.1
 Collate: 
     'comradesOO.R'

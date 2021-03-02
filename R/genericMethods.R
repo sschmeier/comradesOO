@@ -43,6 +43,11 @@ setMethod("show", "comradesClusteredDataSet", function(object) {
         types = c(types  , i)
     }
     cat("Cluster Types - ", types, "\n")
+    types = c()
+    for(i in names(clusterGrangesListt(object)[[rnas(object)[1]]])){
+        types = c(types  , i)
+    }
+    cat("Granges Types - ", types, "\n")
 })
 
 
@@ -65,6 +70,11 @@ setMethod("show", "comradesFoldedDataSet", function(object) {
         types = c(types  , i)
     }
     cat("Cluster Types - ", types, "\n")
+    types = c()
+    for(i in names(clusterGrangesListt(object)[[rnas(object)[1]]])){
+        types = c(types  , i)
+    }
+    cat("Granges Types - ", types, "\n")
 })
 
 
@@ -86,9 +96,6 @@ setMethod("getData", "comradesDataSet", function( x, rna,data, type )
 # comradesDataSet
 setGeneric("rnas", function(x) standardGeneric("rnas"))
 setMethod("rnas", "comradesDataSet", function(x)  x@rnas)
-
-setGeneric("hybDir", function(x) standardGeneric("hybDir"))
-setMethod("hybDir", "comradesDataSet", function(x)   x@hybDir)
 
 setGeneric("sampleTable", function(x) standardGeneric("sampleTable"))
 setMethod("sampleTable", "comradesDataSet", function(x)   x@sampleTable)

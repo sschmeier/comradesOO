@@ -126,7 +126,6 @@ setMethod("compareKnown", "comradesClusteredDataSet", function(trimmedClusters, 
     # create object
     object  = new("comradesClusteredDataSet",
                   rnas = rnas(clusteredCds),
-                  hybDir = hybDir(clusteredCds),
                   sampleTable = sampleTable(clusteredCds),
                   hybFiles = hybFiles(clusteredCds),
                   matrixList = ml,

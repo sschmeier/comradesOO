@@ -183,7 +183,7 @@ code span.er { color: #a61717; background-color: #e3d2d2; }
 <li><a href="#quick-start-workflow">Quick Start Workflow</a><ul>
 <li><a href="#setting-up">Setting up</a></li>
 <li><a href="#reading-in-data-from-hyb">Reading in data from Hyb</a></li>
-<li><a href="#reading-in-data-from-hyb-1">Reading in data from Hyb</a></li>
+<li><a href="#cluster-the-duplexes">Cluster the duplexes</a></li>
 <li><a href="#trim-clusters">Trim clusters</a></li>
 <li><a href="#compare-to-known-structure">Compare to known structure</a></li>
 <li><a href="#fold-clusters">fold clusters</a></li>
@@ -366,8 +366,8 @@ https://readthedocs.org/projects/umi-tools/downloads/pdf/stable/</code></pre>
 <span id="cb8-46"><a href="#cb8-46"></a>                    <span class="dt">d =</span> rnaSize[[rna]],</span>
 <span id="cb8-47"><a href="#cb8-47"></a>                    <span class="dt">h =</span> <span class="dv">5</span>)</span></code></pre></div>
 </div>
-<div id="reading-in-data-from-hyb-1" class="section level2">
-<h2>Reading in data from Hyb</h2>
+<div id="cluster-the-duplexes" class="section level2">
+<h2>Cluster the duplexes</h2>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co">#make comradesDataSet object and cluster</span></span>
 <span id="cb9-2"><a href="#cb9-2"></a>clusteredCds =<span class="st"> </span><span class="kw">comradesClusteredDataSet</span>(<span class="dt">cds =</span> cds,</span>
 <span id="cb9-3"><a href="#cb9-3"></a>                                        <span class="dt">cores =</span> <span class="dv">3</span>)</span>

@@ -319,7 +319,6 @@ setMethod("trimClusters",
               # Re-make the object
               object  = new("comradesClusteredDataSet",
                             rnas = rnas(clusteredCds),
-                            hybDir = hybDir(clusteredCds),
                             sampleTable = sampleTable(clusteredCds),
                             hybFiles = hybFiles(clusteredCds),
                             matrixList = ml,

@@ -10,21 +10,20 @@ License: GPL-3 + file LISENCE
 Encoding: UTF-8
 LazyData: true
 BugReports: https://github.com/JLP-BioInf/comradesOO/issues
-Imports:
-    ggplot2,
-    reshape2,
+Depends:
     GenomicRanges,
-    igraph,
-    heatmap3,
-    MASS,
-    mixtools,
-    RColorBrewer,
-    foreach,
     doParallel,
+    igraph,
     reshape2,
     R4RNA,
     RColorBrewer,
     heatmap3
+Imports:
+    ggplot2,
+    reshape2,
+    heatmap3,
+    MASS,
+    mixtools
 RoxygenNote: 7.1.1
 Collate: 
     'comradesOO.R'

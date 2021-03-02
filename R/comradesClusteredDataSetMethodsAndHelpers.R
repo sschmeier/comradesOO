@@ -431,6 +431,146 @@ sampleChimeras = function(chimeraList){
 
 
 
+#' compareKnown
+#'
+#' This method compares the current object to a know structure.run 
+#' \code{trimClusters()} on the  \code{comradesClusteredDataSet} first
+#'
+#' @param trimmedClusters a \code{comradesClusteredDataSet} object, 
+#' run \code{trimClusters()} on the  \code{comradesClusteredDataSet} first
+#' 
+#' @param knownMat Matrix - A marix(ncol = lengthRNA,nrow = lengthRNA) where a
+#' value in matrix[x,y] would indicate a known interation between nucleotide 
+#' x and nucleotide y 
+#' 
+#' @slot rna string - a single RNA to analyse - must be present in \code{rnas(cdsObject)} 
+#' 
+#' @param type string - the type of clusters you would like to compare you can find 
+#' available types by just running the objects name
+#' 
+#' 
+#' @return Returns a \code{comradesClusteredDataSet} object
+#' 
+#' The 3 attributes matrixList, clusterTableList and clusterGrangesList 
+#' will gain the \code{types} "known" and "novel" and "knownAndNovel"
+#' 
+#' @export
+setGeneric("compareKnown", 
+           function(trimmedClusters, knownMat,rna,  type, ...) standardGeneric("compareKnown"))
+
+setMethod("compareKnown", "comradesClusteredDataSet", function(trimmedClusters, knownMat,rna, type)  {
+    
+    ###################################
+    # Inputs
+    k18Smat = knownMat
+    type = "trimmedClusters"
+    trimmedClusters = trimmedClusters
+    sampleNames = sampleNames(trimmedClusters)
+    ml = matrixList(trimmedClusters)
+    rnaSize = ncol(matrixList(trimmedClusters)[[rna]][["noHost"]][[1]])
+    
+    ###################################
+    # set up variables
+    ml[[rna]][["KnownAndNovel"]] = list()
+    novelClusters = list()
+    novelClustersMat = list()
+    novelClustersMat2 = list()
+    cannonicalClusters = list()
+    cannonicalClustersMat = list()
+    cannonicalClustersMat2 = list()
+    
+    
+    clusterPositionsListTrimmed = clusterTableList(trimmedClusters)[[rna]][[type]]
+    # for each sample
+    for(i in 1:length(clusterPositionsListTrimmed)){
+        
+        # set up the matrix for this sample and the cluster positions
+        clusters = clusterPositionsListTrimmed[[i]]
+        
+        ###################################
+        # test each cluster against the known interactions
+        #this a matrix of known positions:
+        k18Smat2 = k18Smat
+        tf = c()
+        for(j in 1:nrow(clusters)){
+            #For each cluster, make a individual matrix
+            clusterMat = matrix(0, nrow = rnaSize, ncol = rnaSize)
+            # add 10 to the positions of this cluster
+            clusterMat[ clusters$ls[j]:clusters$le[j] ,  clusters$rs[j]:clusters$re[j] ] =
+                clusterMat[  clusters$ls[j]:clusters$le[j] ,  clusters$rs[j]:clusters$re[j] ] + 10
+            
+            # Add that to the matric of cannonical interactions
+            k18Smat2 = k18Smat + clusterMat
+            # find those when the two annotations overlap.
+            tf = c(tf, all(k18Smat2 < 11))
+        }
+        
+        ###################################
+        # Get novel and cannonical tables and matrices
+        print(which((tf == F)))
+        novelClusters[[i]] = clusterPositionsListTrimmed[[i]][which((tf == T)),]
+        novelClustersMat[[i]] = matrix(0, nrow = rnaSize, ncol = rnaSize)
+        for(j in 1:nrow(novelClusters[[i]])){
+            
+            novelClustersMat[[i]][novelClusters[[i]]$ls[j]:novelClusters[[i]]$le[j] ,
+                                  novelClusters[[i]]$rs[j]:novelClusters[[i]]$re[j] ] =
+                novelClustersMat[[i]][ novelClusters[[i]]$ls[j]:novelClusters[[i]]$le[j] ,
+                                       novelClusters[[i]]$rs[j]:novelClusters[[i]]$re[j] ] +  novelClusters[[i]]$size.x[j]
+            
+        }
+        
+        print(which((tf == T)))
+        cannonicalClusters[[i]] = clusterPositionsListTrimmed[[i]][which((tf == F)),]
+        cannonicalClustersMat[[i]] = matrix(0, nrow = rnaSize, ncol = rnaSize)
+        for(j in 1:nrow(cannonicalClusters[[i]])){
+            
+            cannonicalClustersMat[[i]][cannonicalClusters[[i]]$ls[j]:cannonicalClusters[[i]]$le[j] ,
+                                       cannonicalClusters[[i]]$rs[j]:cannonicalClusters[[i]]$re[j] ] =
+                cannonicalClustersMat[[i]][ cannonicalClusters[[i]]$ls[j]:cannonicalClusters[[i]]$le[j] ,
+                                            cannonicalClusters[[i]]$rs[j]:cannonicalClusters[[i]]$re[j] ] + cannonicalClusters[[i]]$size.x[j]
+        }
+        
+        ###################################
+        # Add the known interactions to the known and novel matrices
+        cannonicalClustersMat2[[i]] = cannonicalClustersMat[[i]] + knownMat*30000
+        novelClustersMat2[[i]] = novelClustersMat[[i]] + knownMat*30000
+        ml[[rna]][["KnownAndNovel"]][[i]] = ml[[rna]][[type]][[i]] + knownMat*30000
+    }
+    
+    
+    
+    ###################################
+    # add to the lists for the object
+    ml[[rna]][["novel"]] = novelClustersMat2
+    ml[[rna]][["known"]] = cannonicalClustersMat2
+    ctl = clusterTableList(trimmedClusters)
+    
+    ctl[[rna]][["novel"]] = novelClusters
+    ctl[[rna]][["known"]] = cannonicalClusters
+    cgl = clusterGrangesList(trimmedClusters)
+    
+    
+    
+    ###################################
+    # create object
+    object  = new("comradesClusteredDataSet",
+                  rnas = rnas(clusteredCds),
+                  sampleTable = sampleTable(clusteredCds),
+                  hybFiles = hybFiles(clusteredCds),
+                  matrixList = ml,
+                  group = group(clusteredCds),
+                  sampleNames = sampleNames(clusteredCds),
+                  clusterTableList = ctl,
+                  clusterGrangesList = cgl
+    )
+    
+    return(object)
+    
+})
+
+
+
+
 
 
 

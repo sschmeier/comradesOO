@@ -50,6 +50,7 @@ setMethod("show", "comradesClusteredDataSet", function(object) {
 })
 
 
+
 setMethod("show", "comradesFoldedDataSet", function(object) {
     cat("comradesFoldedDataSet Object \n")
     cat("RNAs Analysed - ",rnas(object), "\n")

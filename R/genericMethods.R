@@ -19,8 +19,7 @@ setMethod("show", "comradesDataSet", function(object) {
     for(i in names(hybFiles(object)[[rnas(object)[1]]])){
         types = c(types  , i)
     }
-    cat("Raw data  - ", types, "\n")
-
+    cat("Raw data  - ", types, "\n") 
 })
 
 

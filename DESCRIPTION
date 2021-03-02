@@ -36,7 +36,6 @@ Collate:
     'comradesDataSetMethodsAndHelpers.R'
     'comradesFoldedDataSetMethodsAndHelpers.R'
     'genericMethods.R'
-    'methods.R'
 Suggests: 
     knitr,
     rmarkdown,

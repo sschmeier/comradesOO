@@ -43,7 +43,7 @@ setMethod("show", "comradesClusteredDataSet", function(object) {
     }
     cat("Cluster Types - ", types, "\n")
     types = c()
-    for(i in names(clusterGrangesListt(object)[[rnas(object)[1]]])){
+    for(i in names(clusterGrangesList(object)[[rnas(object)[1]]])){
         types = c(types  , i)
     }
     cat("Granges Types - ", types, "\n")
@@ -70,7 +70,7 @@ setMethod("show", "comradesFoldedDataSet", function(object) {
     }
     cat("Cluster Types - ", types, "\n")
     types = c()
-    for(i in names(clusterGrangesListt(object)[[rnas(object)[1]]])){
+    for(i in names(clusterGrangesList(object)[[rnas(object)[1]]])){
         types = c(types  , i)
     }
     cat("Granges Types - ", types, "\n")

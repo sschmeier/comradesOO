@@ -251,6 +251,7 @@ comradesClusteredDataSet <- function(cds,
     #create comrades dataset object
     object  = new("comradesClusteredDataSet",
                   rnas = rnas(cds),
+                  rnaSize = rnaSize(cds),
                   sampleTable = sampleTable(cds),
                   hybFiles = hybFiles(cds),
                   matrixList = matrixList,

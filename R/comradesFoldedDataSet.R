@@ -158,6 +158,7 @@ comradesFoldedDataSet <- function(cdsObject,
     #create comrades dataset object
     object  = new("comradesFoldedDataSet",
                   rnas = rnas(cdsObject),
+                  rnaSize = rnaSize(cdsObject),
                   sampleTable = sampleTable(cdsObject),
                   hybFiles = hybFiles(cdsObject),
                   matrixList = matrixList(cdsObject),

@@ -28,6 +28,7 @@
 setClass("comradesDataSet",
          slots = c(
              rnas = "character",
+             rnaSize = "list",
              sampleTable = "data.frame",    # meta data
              hybFiles = "list",       # data tables
              matrixList = "list",
@@ -243,6 +244,7 @@ comradesDataSet <- function(rnas,
     #create comrades dataset object
     object  = new("comradesDataSet",
                   rnas = rnas,
+                  rnaSize = rnaSize,
                   sampleTable = sampleTable,
                   hybFiles = hybFiles,
                   matrixList = matrixList,

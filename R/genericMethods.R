@@ -105,6 +105,9 @@ setMethod("getData", "comradesDataSet", function( x, rna,data, type )
 setGeneric("rnas", function(x) standardGeneric("rnas"))
 setMethod("rnas", "comradesDataSet", function(x)  x@rnas)
 
+setGeneric("rnaSize", function(x) standardGeneric("rnaSize"))
+setMethod("rnaSize", "comradesDataSet", function(x)  x@rnaSize)
+
 setGeneric("sampleTable", function(x) standardGeneric("sampleTable"))
 setMethod("sampleTable", "comradesDataSet", function(x)   x@sampleTable)
 

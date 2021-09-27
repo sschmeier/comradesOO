@@ -82,7 +82,8 @@ comradesClusteredDataSet <- function(cds,
     # Set up variables
     clusters = list()
     clusterTables = list()
-    rna = rnas
+    rna = rnas(cds)
+    rnaSize = rnaSize(cds)
     
     
     ##############################

@@ -78,7 +78,7 @@ comradesFoldedDataSet <- function(cdsObject,
     ##############################
     # get trimmed cluster tables
 
-    clusterPositionsListTrimmed = clusterTableList(cdsObject)[[rna]][["trimmedClusters"]]
+    clusterPositionsListTrimmed = clusterTableList(cdsObject)[["trimmedClusters"]]
 
 
     ##############################
@@ -86,7 +86,6 @@ comradesFoldedDataSet <- function(cdsObject,
     clusterPositionsListTrimmedSarsCombined = list()
     for(j in group(cdsObject)[["s"]]){
 
-        #  clusterPositionsListTrimmedSarsCombined[[j]]$sample =
         clusterPositionsListTrimmed[[j]]$sample = sampleTable(cdsObject)[j,"sampleName"]
         clusterPositionsListTrimmedSarsCombined = rbind.data.frame(clusterPositionsListTrimmedSarsCombined,
                                                                    clusterPositionsListTrimmed[[j]],
@@ -101,7 +100,7 @@ comradesFoldedDataSet <- function(cdsObject,
     clusterPositionsListTrimmedSarsCombined$seq2 = ""
     # add the sequences tot he table
     for(i in 1:nrow(clusterPositionsListTrimmedSarsCombined)){
-        x = getClusterClusterShortRangeWhole(clusterPositionsListTrimmedSarsCombined[i,],rnaRefs[[rna]] )
+        x = getClusterClusterShortRangeWhole(clusterPositionsListTrimmedSarsCombined[i,],rnaRefs )
         clusterPositionsListTrimmedSarsCombined$type[i]= x[[1]]
         clusterPositionsListTrimmedSarsCombined$seq2[i] = x[[3]]
         clusterPositionsListTrimmedSarsCombined$seq1[i] = x[[2]]

@@ -126,8 +126,12 @@ setMethod("plotMatrices", "comradesDataSet", function(cds,type, directory,a,b,c,
     
     hybMatList = matrixList(cds)
     rnaS = rnas(cds)
-    sampleNames = sampleNames(cds)
+    sampleNames = names(hybMatList[[1]][[type]])
+    if(is.null(sampleNames)){
+        sampleNames = 1:length(hybMatList[[1]][[type]])
+    }
     
+    print(sampleNames)
     
     for(sample in  1:length(sampleNames)  ){
         
@@ -169,14 +173,13 @@ setMethod("plotMatricesAverage", "comradesDataSet", function(cds,type, directory
         
         hybMatList = matrixList(cds)
         hybMatList2 = hybMatList
-        c = 1
-        for(i in "s"){
+        for(i in c("c", "s")){
+            c = 1
             for(j in group(cds)[[i]] ){
                 if(length( group(cds)[[i]] ) < 2 | c == 1 ){
                     sum(hybMatList[[rna]][[type]][[ j ]])
                     hybMatList2[[rna]][[type]][[ i ]] =   hybMatList[[rna]][[type]][[ j ]]
-                    sum(hybMatList2[[rna]][[type]][[ i ]])
-                    print("first")
+                    print(sum(hybMatList2[[rna]][[type]][[ i ]]))
                     print(c)
                     # hybMatList2[[rna]][[type]][["s"]] =   hybMatList[[rna]][[type]][[ j ]]
                 }else{
@@ -191,7 +194,7 @@ setMethod("plotMatricesAverage", "comradesDataSet", function(cds,type, directory
             
         }
         
-        sampleNames = c("s")
+        sampleNames = c("s", "c")
         #c = 1
         for(sample in  sampleNames ){
             

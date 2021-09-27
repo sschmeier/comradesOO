@@ -30,12 +30,12 @@ Collate:
     'comradesDataSet.R'
     'comradesClusteredDataSet.R'
     'comradesFoldedDataSet.R'
+    'genericMethods.R'
     'commonHelpersAndMethods.R'
     'commonStatsAndPlots.R'
     'comradesClusteredDataSetMethodsAndHelpers.R'
     'comradesDataSetMethodsAndHelpers.R'
     'comradesFoldedDataSetMethodsAndHelpers.R'
-    'genericMethods.R'
 Suggests: 
     knitr,
     rmarkdown,

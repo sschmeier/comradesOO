@@ -14,17 +14,12 @@ NULL
 #' this method prints some feature level statistics
 #'
 #' @param cds a \code{comradesClusteredDataSet} object
-#' 
-#' 
-#' @return Returns a \code{comradesClusteredDataSet} object
-#' 
-#' The 3 attributes matrixList, clusterTableList and clusterGrangesList 
-#' will gain the \code{types} "superClusters" and "trimmedClusters"
+#' @param file a folder location to write the table of statistics for RNAS
 #' 
 #' @export
 #' 
 setGeneric("featureInfo",
-           function(cds,file, ...) standardGeneric("featureInfo" ) )
+           function(cds, file, ...) standardGeneric("featureInfo" ) )
 
 setMethod("featureInfo",
           "comradesDataSet",

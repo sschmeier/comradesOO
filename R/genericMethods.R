@@ -94,6 +94,9 @@ setMethod("show", "comradesFoldedDataSet", function(object) {
 
 
 # the general accessor
+
+
+#' @export
 setGeneric("getData", function(x, rna,data, type ) standardGeneric("getData"))
 setMethod("getData", "comradesDataSet", function( x, rna,data, type )  
     slot(cds, data)[[type]] )
@@ -102,38 +105,47 @@ setMethod("getData", "comradesDataSet", function( x, rna,data, type )
 
 
 # comradesDataSet
-
+#' @export
 setGeneric("rnas", function(x) standardGeneric("rnas"))
 setMethod("rnas", "comradesDataSet", function(x)  x@rnas)
 
+#' @export
 setGeneric("rnaSize", function(x) standardGeneric("rnaSize"))
 setMethod("rnaSize", "comradesDataSet", function(x)  x@rnaSize)
 
+#' @export
 setGeneric("sampleTable", function(x) standardGeneric("sampleTable"))
 setMethod("sampleTable", "comradesDataSet", function(x)   x@sampleTable)
 
+#' @export
 setGeneric("hybFiles", function(x) standardGeneric("hybFiles"))
 setMethod("hybFiles", "comradesDataSet", function(x)   x@hybFiles)
 
+#' @export
 setGeneric("matrixList", function(x) standardGeneric("matrixList"))
 setMethod("matrixList", "comradesDataSet", function(x)   x@matrixList)
 
+#' @export
 setGeneric("group", function(x) standardGeneric("group"))
 setMethod("group", "comradesDataSet", function(x)   x@group)
 
+#' @export
 setGeneric("sampleNames", function(x) standardGeneric("sampleNames"))
 setMethod("sampleNames", "comradesDataSet", function(x)   x@"sampleNames")
 
 
 # comradesClusteredDataSet
+#' @export
 setGeneric("clusterGrangesList", function(x) standardGeneric("clusterGrangesList"))
 setMethod("clusterGrangesList", "comradesClusteredDataSet", function(x)  x@clusterGrangesList)
 
+#' @export
 setGeneric("clusterTableList", function(x) standardGeneric("clusterTableList"))
 setMethod("clusterTableList", "comradesClusteredDataSet", function(x)  x@clusterTableList)
 
 
 # comradesFoldedDataSet
+#' @export
 setGeneric("clusterTableFolded", function(x) standardGeneric("clusterTableFolded"))
 setMethod("clusterTableFolded", "comradesFoldedDataSet", function(x)  x@clusterTableFolded)
 
@@ -146,17 +158,21 @@ setMethod("clusterTableFolded", "comradesFoldedDataSet", function(x)  x@clusterT
 
 
 #comradesDataSet
+#' @export
 setGeneric("matrixList<-", function(x, value) standardGeneric("matrixList<-"))
 setMethod("matrixList<-", "comradesDataSet", function(x, value) {
     x@matrixList  = value
 })
 
+
 #comradesClusteredDataSet
+#' @export
 setGeneric("clusterGrangesList<-", function(x, value) standardGeneric("clusterGrangesList<-"))
 setMethod("clusterGrangesList<-", "comradesClusteredDataSet", function(x, value) {
     x@clusterGrangesList  = value
 })
 
+#' @export
 setGeneric("clusterTableList<-", function(x, value) standardGeneric("clusterTableList<-"))
 setMethod("clusterTableList<-", "comradesClusteredDataSet", function(x, value) {
     x@clusterTableList  = value

@@ -24,11 +24,11 @@ NULL
 #' @export
 #' 
 setGeneric("featureInfo",
-           function(cds,file, ...) standardGeneric("featureInfo" ) )
+           function(cds, ...) standardGeneric("featureInfo" ) )
 
 setMethod("featureInfo",
           "comradesDataSet",
-          function(cds, file)  {
+          function(cds)  {
               
               
               alteredHybList = list()
@@ -170,7 +170,7 @@ setMethod("featureInfo",
                   
                   samples = paste("norm",samples, sep = "_")
                   
-                  pdf(paste(file,"/stats_",TE, ".pdf", sep = ""), height = 4, width = 7)
+
                   
                   plot(ggplot() + 
                            geom_boxplot(data = data[data$variable %in% samples,], aes(x = reorder(ID, value, FUN = median), y = log2(value))) +
@@ -178,7 +178,7 @@ setMethod("featureInfo",
                            geom_hline(yintercept = 0, colour = "darkred")+
                            theme_classic() +
                            theme(axis.text.x = element_text(angle = 90, hjust = 1)))
-                  dev.off()
+
                   
               }
               

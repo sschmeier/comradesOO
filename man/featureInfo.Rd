@@ -4,16 +4,12 @@
 \alias{featureInfo}
 \title{featureInfo}
 \usage{
-featureInfo(cds, ...)
+featureInfo(cds, file, ...)
 }
 \arguments{
 \item{cds}{a \code{comradesClusteredDataSet} object}
-}
-\value{
-Returns a \code{comradesClusteredDataSet} object
 
-The 3 attributes matrixList, clusterTableList and clusterGrangesList 
-will gain the \code{types} "superClusters" and "trimmedClusters"
+\item{file}{a folder location to write the table of statistics for RNAS}
 }
 \description{
 this method prints some feature level statistics

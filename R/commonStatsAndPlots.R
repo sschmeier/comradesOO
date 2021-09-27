@@ -141,14 +141,14 @@ setMethod("plotMatrices", "comradesDataSet", function(cds,type, directory,a,b,c,
             
             myCol = colorRampPalette(c("black","black",brewer.pal(9,"YlOrRd")))(13)
             
-            cols = log2(max(hybMatList[[rna]][[type]][[sample]][a:b,c:d]+1))
+            cols = log2(max(hybMatList[[type]][[sample]][a:b,c:d]+1))
             
             myCol = myCol[1:cols]
             
             pdf(paste(directory,"/",rna ,"_", sampleNames[sample], "-",type ,".pdf", sep = ""),
                 height = h,
                 width = h)
-            heatmap3((log2(t(hybMatList[[rna]][[type]][[sample]][a:b,c:d]+1))),
+            heatmap3((log2(t(hybMatList[[type]][[sample]][a:b,c:d]+1))),
                      col=myCol,
                      scale="none" ,
                      Rowv = NA,

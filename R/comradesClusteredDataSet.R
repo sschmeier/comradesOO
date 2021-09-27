@@ -90,7 +90,7 @@ comradesClusteredDataSet <- function(cds,
     clusters = list() #will contain the clusterGranges
     clusterTables = list() #will contain the cluster tables
     rnaSize = ncol(matrixList(cds)[["noHost"]][[1]]) #calculate size of rna
-    print(paste("*** clustering ", rnaSize," nt ", rna, " ***"))
+    print(paste("*** clustering ", rnaSize(cds)," nt ", rnas(cds), " ***"))
     
     
     

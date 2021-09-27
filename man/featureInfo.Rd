@@ -4,7 +4,7 @@
 \alias{featureInfo}
 \title{featureInfo}
 \usage{
-featureInfo(cds, file, ...)
+featureInfo(cds, ...)
 }
 \arguments{
 \item{cds}{a \code{comradesClusteredDataSet} object}

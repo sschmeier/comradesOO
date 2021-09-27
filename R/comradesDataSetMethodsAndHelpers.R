@@ -24,11 +24,11 @@ NULL
 #' @export
 #' 
 setGeneric("featureInfo",
-           function(cds, ...) standardGeneric("featureInfo" ) )
+           function(cds,file, ...) standardGeneric("featureInfo" ) )
 
 setMethod("featureInfo",
           "comradesDataSet",
-          function(cds)  {
+          function(cds,file)  {
               
               
               alteredHybList = list()

@@ -17,7 +17,8 @@ Depends:
     reshape2,
     R4RNA,
     RColorBrewer,
-    heatmap3
+    heatmap3,
+    methods
 Imports:
     ggplot2,
     reshape2,

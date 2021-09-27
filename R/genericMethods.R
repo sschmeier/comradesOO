@@ -16,7 +16,7 @@ setMethod("show", "comradesDataSet", function(object) {
     cat("RNAs Analysed - ",rnas(object), "\n")
     cat("Samples Analysed - ",sampleNames(object), "\n")
     types = c()
-    for(i in names(hybFiles(object)[[rnas(object)[1]]])){
+    for(i in names(hybFiles(object))){
         types = c(types  , i)
     }
     cat("Raw data  - ", types, "\n") 
@@ -29,25 +29,25 @@ setMethod("show", "comradesClusteredDataSet", function(object) {
     cat("Samples Analysed - ",sampleNames(object), "\n")
     
     types = c()
-    for(i in names(hybFiles(object)[[rnas(object)[1]]])){
+    for(i in names(hybFiles(object))){
         types = c(types  , i)
     }
     cat("Raw data  - ", types, "\n")
     
     types = c()
-    for(i in names(matrixList(object)[[rnas(object)[1]]])){
+    for(i in names(matrixList(object))){
         types = c(types  , i)
     }
     cat("Matrix Types - ", types, "\n")
     
     types = c()
-    for(i in names(clusterTableList(object)[[rnas(object)[1]]])){
+    for(i in names(clusterTableList(object))){
         types = c(types  , i)
     }
     cat("Cluster Types - ", types, "\n")
     
     types = c()
-    for(i in names(clusterGrangesList(object)[[rnas(object)[1]]])){
+    for(i in names(clusterGrangesList(object))){
         types = c(types  , i)
     }
     cat("Granges Types - ", types, "\n")
@@ -61,25 +61,25 @@ setMethod("show", "comradesFoldedDataSet", function(object) {
     cat("Samples Analysed - ",sampleNames(object), "\n")
     
     types = c()
-    for(i in names(hybFiles(object)[[rnas(object)[1]]])){
+    for(i in names(hybFiles(object))){
         types = c(types  , i)
     }
     cat("Raw data Types - ", types, "\n")
     
     types = c()
-    for(i in names(matrixList(object)[[rnas(object)[1]]])){
+    for(i in names(matrixList(object))){
         types = c(types  , i)
     }
     cat("Matrix Types - ", types, "\n")
     
     types = c()
-    for(i in names(clusterTableList(object)[[rnas(object)[1]]])){
+    for(i in names(clusterTableList(object))){
         types = c(types  , i)
     }
     cat("Cluster Types - ", types, "\n")
     
     types = c()
-    for(i in names(clusterGrangesList(object)[[rnas(object)[1]]])){
+    for(i in names(clusterGrangesList(object))){
         types = c(types  , i)
     }
     cat("Granges Types - ", types, "\n")
@@ -96,12 +96,13 @@ setMethod("show", "comradesFoldedDataSet", function(object) {
 # the general accessor
 setGeneric("getData", function(x, rna,data, type ) standardGeneric("getData"))
 setMethod("getData", "comradesDataSet", function( x, rna,data, type )  
-    slot(cds, data)[[rna]][[type]] )
+    slot(cds, data)[[type]] )
 
 
 
 
 # comradesDataSet
+
 setGeneric("rnas", function(x) standardGeneric("rnas"))
 setMethod("rnas", "comradesDataSet", function(x)  x@rnas)
 

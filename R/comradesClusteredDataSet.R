@@ -47,10 +47,10 @@ setValidity("comradesClusteredDataSet", function(object) {
 #'
 #'
 #' @slot clusterTableList List - Follows the pattern for list slots of comradesDataSet
-#' objects, \code{matrixList(cds)[[rna]][[type]][[sample]]}. contains a table
+#' objects, \code{matrixList(cds)[[type]][[sample]]}. contains a table
 #' with coordinates and information about the clusters identified
 #' @slot clusterGrangesList List - Follows the pattern for list slots of comradesDataSet
-#' objects, \code{matrixList(cds)[[rna]][[type]][[sample]]}. contains GRanges 
+#' objects, \code{matrixList(cds)[[type]][[sample]]}. contains GRanges 
 #' objects of the original suplexes with their cluster membership
 #' #' @slot sampleTable table - Column names; fileName, group (s or c),
 #'  sample (1,2,3, etc), sampleName (must be unique)
@@ -59,11 +59,11 @@ setValidity("comradesClusteredDataSet", function(object) {
 #' creation, it is a list with two vector elements ("c","s") containing the 
 #' indexes of the sampleTable that have "c" or "s" in the group column.
 #' @slot matrixList List - Follows the pattern for list slots of comradesDataSet
-#' objects, \code{matrixList(cds)[[rna]][[type]][[sample]]}. Contains a set
+#' objects, \code{matrixList(cds)[[type]][[sample]]}. Contains a set
 #' of contact matrices, each cell contains the number of duplexes identified 
 #' for position x,y.
 #' @slot hybFiles List - Follows the pattern for list slots of comradesDataSet
-#' objects, \code{hybFiles(cds)[[rna]][[type]][[sample]]}. Contains a set of 
+#' objects, \code{hybFiles(cds)[[type]][[sample]]}. Contains a set of 
 #' tables, these are the original Hyb files that were read in. 
 #'
 #' @rdname comradesClusteredDataSet

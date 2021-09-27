@@ -28,17 +28,17 @@ setMethod("trimClusters",
               for(rna in rnas(clusteredCds)){  ## for each RNA
                   
                   # size of rna
-                  rnaSize = ncol(matrixList(clusteredCds)[[rna]][["noHost"]][[1]])
+                  rnaSize = ncol(matrixList(clusteredCds)[["noHost"]][[1]])
                   # original clusters
-                  originalClusters =  clusterTableList(clusteredCds)[[rna]][["original"]]
+                  originalClusters =  clusterTableList(clusteredCds)[["original"]]
                   
                   
                   ##############################
                   # Now cluster the clusters
                   #get original tables
-                  clusterPositionsList = clusterTableList(clusteredCds)[[rna]][["original"]]
+                  clusterPositionsList = clusterTableList(clusteredCds)[["original"]]
                   #get original gRanges
-                  combinedPlotting     = clusterGrangesList(clusteredCds)[[rna]][["original"]]
+                  combinedPlotting     = clusterGrangesList(clusteredCds)[["original"]]
                   
                   ##############################
                   # Set up new tables, matric and granges lists
@@ -148,11 +148,11 @@ setMethod("trimClusters",
                   print("saving")
                   print("saving mat list")
                   ml = matrixList(clusteredCds)
-                  ml[[rna]][["superClusters"]] = matList
+                  ml[["superClusters"]] = matList
                   
                   print("saving table list")
                   ctl = clusterTableList(clusteredCds)
-                  ctl[[rna]][["superClusters"]] =   superclustersPoisitonList
+                  ctl[["superClusters"]] =   superclustersPoisitonList
               }
               
               
@@ -187,7 +187,7 @@ setMethod("trimClusters",
               # Save new Granges super clusters
               print("saving granges list")
               cgr = clusterGrangesList(clusteredCds)
-              cgr[[rna]][["superClusters"]]   =  allChimerasForSuperClustersPlotting
+              cgr[["superClusters"]]   =  allChimerasForSuperClustersPlotting
               
               
               
@@ -306,13 +306,13 @@ setMethod("trimClusters",
               # And save
               print("saving")
               print("saving mat list")
-              ml[[rna]][["trimmedClusters"]] =     matListTrimmed
+              ml[["trimmedClusters"]] =     matListTrimmed
               
               print("saving granges list")
-              cgr[[rna]][["trimmedClusters"]]   =  allChimerasForSuperClustersPlottingTrimmed
+              cgr[["trimmedClusters"]]   =  allChimerasForSuperClustersPlottingTrimmed
               
               print("saving table list")
-              ctl[[rna]][["trimmedClusters"]] =   clusterPositionsListTrimmed
+              ctl[["trimmedClusters"]] =   clusterPositionsListTrimmed
               
               
               ###################################
@@ -468,11 +468,11 @@ setMethod("compareKnown", "comradesClusteredDataSet", function(trimmedClusters, 
     trimmedClusters = trimmedClusters
     sampleNames = sampleNames(trimmedClusters)
     ml = matrixList(trimmedClusters)
-    rnaSize = ncol(matrixList(trimmedClusters)[[rna]][["noHost"]][[1]])
+    rnaSize = ncol(matrixList(trimmedClusters)[["noHost"]][[1]])
     
     ###################################
     # set up variables
-    ml[[rna]][["KnownAndNovel"]] = list()
+    ml[["KnownAndNovel"]] = list()
     novelClusters = list()
     novelClustersMat = list()
     novelClustersMat2 = list()
@@ -481,7 +481,7 @@ setMethod("compareKnown", "comradesClusteredDataSet", function(trimmedClusters, 
     cannonicalClustersMat2 = list()
     
     
-    clusterPositionsListTrimmed = clusterTableList(trimmedClusters)[[rna]][[type]]
+    clusterPositionsListTrimmed = clusterTableList(trimmedClusters)[[type]]
     # for each sample
     for(i in 1:length(clusterPositionsListTrimmed)){
         
@@ -537,19 +537,19 @@ setMethod("compareKnown", "comradesClusteredDataSet", function(trimmedClusters, 
         # Add the known interactions to the known and novel matrices
         cannonicalClustersMat2[[i]] = cannonicalClustersMat[[i]] + knownMat*30000
         novelClustersMat2[[i]] = novelClustersMat[[i]] + knownMat*30000
-        ml[[rna]][["KnownAndNovel"]][[i]] = ml[[rna]][[type]][[i]] + knownMat*30000
+        ml[["KnownAndNovel"]][[i]] = ml[[type]][[i]] + knownMat*30000
     }
     
     
     
     ###################################
     # add to the lists for the object
-    ml[[rna]][["novel"]] = novelClustersMat2
-    ml[[rna]][["known"]] = cannonicalClustersMat2
+    ml[["novel"]] = novelClustersMat2
+    ml[["known"]] = cannonicalClustersMat2
     ctl = clusterTableList(trimmedClusters)
     
-    ctl[[rna]][["novel"]] = novelClusters
-    ctl[[rna]][["known"]] = cannonicalClusters
+    ctl[["novel"]] = novelClusters
+    ctl[["known"]] = cannonicalClusters
     cgl = clusterGrangesList(trimmedClusters)
     
     

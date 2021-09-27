@@ -119,7 +119,8 @@ setMethod("getDuplexStats", "comradesDataSet", function(knowClusteredCds,rna)  {
 
 
 
-# Plot Matrices
+#' Plot Matrices
+#' @export
 setGeneric("plotMatrices", function(cds,type, directory,a,b,c,d,h, ...) standardGeneric("plotMatrices"))
 
 setMethod("plotMatrices", "comradesDataSet", function(cds,type, directory,a,b,c,d,h)  {
@@ -164,7 +165,8 @@ setMethod("plotMatrices", "comradesDataSet", function(cds,type, directory,a,b,c,
 
 
 
-# Plot Matrices
+#' Plot Matrices
+#' @export
 setGeneric("plotMatricesAverage", function(cds,type, directory,a,b,c,d,h, ...) standardGeneric("plotMatricesAverage"))
 
 setMethod("plotMatricesAverage", "comradesDataSet", function(cds,type, directory,a,b,c,d,h)  {

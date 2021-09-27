@@ -126,9 +126,9 @@ setMethod("plotMatrices", "comradesDataSet", function(cds,type, directory,a,b,c,
     
     hybMatList = matrixList(cds)
     rnaS = rnas(cds)
-    sampleNames = names(hybMatList[[1]][[type]])
+    sampleNames = names(hybMatList[[type]])
     if(is.null(sampleNames)){
-        sampleNames = 1:length(hybMatList[[1]][[type]])
+        sampleNames = 1:length(hybMatList[[type]])
     }
     
     print(sampleNames)
@@ -177,17 +177,17 @@ setMethod("plotMatricesAverage", "comradesDataSet", function(cds,type, directory
             c = 1
             for(j in group(cds)[[i]] ){
                 if(length( group(cds)[[i]] ) < 2 | c == 1 ){
-                    sum(hybMatList[[rna]][[type]][[ j ]])
-                    hybMatList2[[rna]][[type]][[ i ]] =   hybMatList[[rna]][[type]][[ j ]]
-                    print(sum(hybMatList2[[rna]][[type]][[ i ]]))
+                    sum(hybMatList[[type]][[ j ]])
+                    hybMatList2[[type]][[ i ]] =   hybMatList[[type]][[ j ]]
+                    print(sum(hybMatList2[[type]][[ i ]]))
                     print(c)
-                    # hybMatList2[[rna]][[type]][["s"]] =   hybMatList[[rna]][[type]][[ j ]]
+                    # hybMatList2[[type]][["s"]] =   hybMatList[[type]][[ j ]]
                 }else{
-                    hybMatList2[[rna]][[type]][[ i ]] =  hybMatList2[[rna]][[type]][[ i ]] +
-                        hybMatList[[rna]][[type]][[ j ]]
-                    print(sum(hybMatList2[[rna]][[type]][[ i  ]] ))
+                    hybMatList2[[type]][[ i ]] =  hybMatList2[[type]][[ i ]] +
+                        hybMatList[[type]][[ j ]]
+                    print(sum(hybMatList2[[type]][[ i  ]] ))
                     print(c)
-                    # hybMatList2[[rna]][[type]][["s"]] =  Reduce('+', hybMatList[[rna]][[type]][[ j ]] )
+                    # hybMatList2[[type]][["s"]] =  Reduce('+', hybMatList[[type]][[ j ]] )
                 }
                 c = c+1
             }
@@ -204,14 +204,14 @@ setMethod("plotMatricesAverage", "comradesDataSet", function(cds,type, directory
             
             myCol = colorRampPalette(c("black","black",brewer.pal(9,"YlOrRd")))(13)
             
-            cols = log2(max(hybMatList2[[rna]][[type]][[sample]][a:b,c:d]+1))-2
+            cols = log2(max(hybMatList2[[type]][[sample]][a:b,c:d]+1))-2
             
             myCol = myCol[1:cols]
             
             pdf(paste(directory,"/",rna ,"_", sample , "-",type ,".pdf", sep = ""),
                 height = h,
                 width = h)
-            heatmap3((log2(t(hybMatList2[[rna]][[type]][[sample]][a:b,c:d]+1))),
+            heatmap3((log2(t(hybMatList2[[type]][[sample]][a:b,c:d]+1))),
                      col=myCol,
                      scale="none" ,
                      Rowv = NA,

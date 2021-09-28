@@ -12,6 +12,7 @@ LazyData: true
 BugReports: https://github.com/JLP-BioInf/comradesOO/issues
 Depends:
     GenomicRanges,
+    ggplot2,
     doParallel,
     igraph,
     reshape2,

@@ -202,13 +202,10 @@ comradesDataSet <- function(rnas,
     
     
     print(" *** RNA of interest + Host RNA ***")
-<<<<<<< HEAD
-    hybFiles[[ rnas ]][[ "original"]] = swapHybs(hybList = hybFiles[[ "all" ]][[ "all" ]],
-                                                 rna = rnas )
-=======
+
     hybFiles[[ rnas]][[ "original"]] = swapHybs(hybList = hybFiles[[ "all" ]][[ "all" ]],
                                                 rna = rnas )
->>>>>>> f14b2b7f0d4d2d31d0ffb479bb9f29e028f46e89
+
     
     hybFiles[[ rnas ]][[ "host"]] = swapHybs3(hybList = hybFiles[[ "all" ]][[ "all" ]],
                                               rna = rnas )
@@ -224,20 +221,7 @@ comradesDataSet <- function(rnas,
     print(" ***** Making Matrices ******")
     
     matrixList = list()
-<<<<<<< HEAD
-    
-    rnaSize2 =   rnaSize
 
-    matrixList[[ rnas ]][[ "noHost" ]] = list()
-    matrixList[[ rnas ]][[ "noHost" ]] = getMatrices(hybFiles[[  rnas  ]][[ "noHost"]],
-                                                rnas , rnaSize2)
-    names(matrixList[[ rnas]][[ "noHost" ]]) = sampleNames
-    
-    matrixList[[ rnas ]][[ "original" ]] = list()
-    matrixList[[ rnas ]][[ "original" ]] = getMatrices(hybFiles[[ rnas  ]][[ "original"]],
-                                                  rnas , rnaSize2)
-    names(matrixList[[ rnas ]][[ "original" ]]) = sampleNames
-=======
     matrixList[[rnas]] = list()
     rnaSize2 =   rnaSize
     
@@ -251,7 +235,7 @@ comradesDataSet <- function(rnas,
                                                      rnas, rnaSize2)
     names(matrixList[[rnas]][[ "original" ]]) = sampleNames
     
->>>>>>> f14b2b7f0d4d2d31d0ffb479bb9f29e028f46e89
+
     
     
     

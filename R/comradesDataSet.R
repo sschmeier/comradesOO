@@ -221,7 +221,6 @@ comradesDataSet <- function(rnas,
     print(" ***** Making Matrices ******")
     
     matrixList = list()
-
     matrixList[[ rnas ]] = list()
     rnaSize2 =   rnaSize
     

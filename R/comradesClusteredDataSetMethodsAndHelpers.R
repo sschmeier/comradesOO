@@ -464,7 +464,7 @@ setMethod("compareKnown", "comradesClusteredDataSet", function(trimmedClusters, 
     ###################################
     # Inputs
     k18Smat = knownMat
-    type = "trimmedClusters"
+    type = type
     trimmedClusters = trimmedClusters
     sampleNames = sampleNames(trimmedClusters)
     ml = matrixList(trimmedClusters)
@@ -511,13 +511,15 @@ setMethod("compareKnown", "comradesClusteredDataSet", function(trimmedClusters, 
         print(which((tf == F)))
         novelClusters[[i]] = clusterPositionsListTrimmed[[i]][which((tf == T)),]
         novelClustersMat[[i]] = matrix(0, nrow = rnaSize, ncol = rnaSize)
-        for(j in 1:nrow(novelClusters[[i]])){
-            
-            novelClustersMat[[i]][novelClusters[[i]]$ls[j]:novelClusters[[i]]$le[j] ,
-                                  novelClusters[[i]]$rs[j]:novelClusters[[i]]$re[j] ] =
-                novelClustersMat[[i]][ novelClusters[[i]]$ls[j]:novelClusters[[i]]$le[j] ,
-                                       novelClusters[[i]]$rs[j]:novelClusters[[i]]$re[j] ] +  novelClusters[[i]]$size.x[j]
-            
+        if(nrow(novelClusters[[i]]) > 0){
+            for(j in 1:nrow(novelClusters[[i]])){
+                
+                novelClustersMat[[i]][novelClusters[[i]]$ls[j]:novelClusters[[i]]$le[j] ,
+                                      novelClusters[[i]]$rs[j]:novelClusters[[i]]$re[j] ] =
+                    novelClustersMat[[i]][ novelClusters[[i]]$ls[j]:novelClusters[[i]]$le[j] ,
+                                           novelClusters[[i]]$rs[j]:novelClusters[[i]]$re[j] ] +  novelClusters[[i]]$size.x[j]
+                
+            }
         }
         
         print(which((tf == T)))

@@ -222,18 +222,18 @@ comradesDataSet <- function(rnas,
     
     matrixList = list()
 
-    matrixList[[rnas]] = list()
+    matrixList[[ rnas ]] = list()
     rnaSize2 =   rnaSize
     
-    matrixList[[rnas]][[ "noHost" ]] = list()
-    matrixList[[rnas]][[ "noHost" ]] = getMatrices(hybFiles[[ i  ]][[ "noHost"]],
+    matrixList[[ rnas ]][[ "noHost" ]] = list()
+    matrixList[[ rnas ]][[ "noHost" ]] = getMatrices(hybFiles[[ rnas  ]][[ "noHost"]],
                                                    rnas, rnaSize2)
-    names(matrixList[[rnas]][[ "noHost" ]]) = sampleNames
+    names(matrixList[[ rnas ]][[ "noHost" ]]) = sampleNames
     
-    matrixList[[rnas]][[ "original" ]] = list()
-    matrixList[[rnas]][[ "original" ]] = getMatrices(hybFiles[[ i  ]][[ "original"]],
+    matrixList[[ rnas ]][[ "original" ]] = list()
+    matrixList[[ rnas ]][[ "original" ]] = getMatrices(hybFiles[[ rnas  ]][[ "original"]],
                                                      rnas, rnaSize2)
-    names(matrixList[[rnas]][[ "original" ]]) = sampleNames
+    names(matrixList[[ rnas ]][[ "original" ]]) = sampleNames
     
 
     

@@ -28,7 +28,7 @@
 setClass("comradesDataSet",
          slots = c(
              rnas = "character",
-             rnaSize = "list",
+             rnaSize = "numeric",
              sampleTable = "data.frame",    # meta data
              hybFiles = "list",       # data tables
              matrixList = "list",
@@ -36,13 +36,13 @@ setClass("comradesDataSet",
              sampleNames = "character" # Column containing control or sample
          ),
          prototype = list(
-
+             
          ))
 
 setValidity("comradesDataSet", function(object) {
-
+    
     #test to make sure the object is O.K
-
+    
 })
 
 
@@ -103,7 +103,7 @@ comradesDataSet <- function(rnas,
     # check the inputs here, stop if wrong
     print(" ***** ******************* ****** ")
     print(" ***** Reading SampleTable ****** ")
-
+    
     # Read in sample table
     sampleTable = sampleTable
     #check for more than two samples
@@ -112,15 +112,15 @@ comradesDataSet <- function(rnas,
               sample and 1 control" )
     }
     print(paste("***  detected ",nrow(sampleTable), " samples  ***"))
-
-
+    
+    
     #check column names of sampleTable
     colnamesST = c("file", "group", "sample", "sampleName")
     if(all(colnames( sampleTable ) != colnamesST)){
         stop( "Column names of metaData table should be :
               file, group, sample, sampleNames" )
     }
-
+    
     ###########################################################
     # Get the comparison groups
     # check group has the c and s
@@ -128,19 +128,19 @@ comradesDataSet <- function(rnas,
            unique(as.character( sampleTable$group ) )[2] %in% c("c", "s") ) ) {
         stop( "Groups should be c and s" )
     }
-
+    
     # Make group into a list with control and sample
     group = sampleTable[,"group"]
     group2 = list()
     group2[["c"]] = which(group == "c")
     group2[["s"]] = which(group == "s")
-
+    
     group = group2
     print(paste("*** detected group c::",  paste(group[["c"]], collapse = " ") , "***"))
     print(paste("*** detected group s::",  paste(group[["s"]], collapse = " ") , "***"))
-
-
-
+    
+    
+    
     ###########################################################
     # Get the sampleNames
     sampleNames = c()
@@ -150,93 +150,92 @@ comradesDataSet <- function(rnas,
         stop( "SampleName column must be unique" )
     }else{
         sampleNames = as.character( sampleTable$sampleName )
-
+        
         print(paste("*** detected ", paste(sampleNames, collapse = " "), " sample Names ***"))
     }
-
-
-
+    
+    
+    
     ###########################################################
     # Read in the  hyb files
     ###########################################################
     #load the files into a list
     print(" ***** Reading Hyb Files ******")
-
+    
     hybFiles = list()
     hybFiles[[ "all" ]] = list()
     hybFiles[[ "all" ]][[ "all" ]] = list()
-
+    
     for(i in 1:nrow( sampleTable )){
-
+        
         #get file and path
         file =  as.character( sampleTable$file[i] )
         print( file )
-
+        
         # Read in
         sampleHyb = read.table( file ,
                                 header = F,
                                 stringsAsFactors = F )
-
+        
         #check the hyb file column names
         colnamesHyb = c("V1", "V2", "V3", "V4", "V5",
                         "V6", "V7", "V8", "V9", "V10",
                         "V11", "V12", "V13", "V14", "V15")
-
+        
         if( !( identical(colnames(sampleHyb), colnamesHyb) ) ){
             stop(" The input hyb files do not look they are produced with the
                  hyb program. ")
         }
-
+        
         # Store
         hybFiles[[ "all" ]][[ "all" ]][[ sampleNames[i] ]] = unique( sampleHyb )
         print(nrow(hybFiles[[ "all" ]][[ "all" ]][[ sampleNames[i] ]] ))
     }
-
-
+    
+    
     ###########################################################
     # Change the hyb files to have specific rna of interest
     # and with host and without
     ###########################################################
     print(" ***** Getting RNAs of Interest ******")
     # Get the rna of interest it comes in two ways, with host and without
-    for(i in 1:length(rnas)){
-        
-        print(" *** RNA of interest + Host RNA ***")
-        hybFiles[[ rnas[ i ] ]][[ "original"]] = swapHybs(hybList = hybFiles[[ "all" ]][[ "all" ]],
-                                                          rna = rnas[ i ] )
-
-        hybFiles[[ rnas[ i ] ]][[ "host"]] = swapHybs3(hybList = hybFiles[[ "all" ]][[ "all" ]],
-                                                       rna = rnas[ i ] )
-        print(" *** RNA of interest Alone ***")
-        hybFiles[[ rnas[ i ] ]][[ "noHost"]] = swapHybs2(hybList = hybFiles[[ "all" ]][[ "all" ]],
-                                                         rna = rnas[ i ] )
-    }
-
-
+    
+    
+    print(" *** RNA of interest + Host RNA ***")
+    hybFiles[[ rnas]][[ "original"]] = swapHybs(hybList = hybFiles[[ "all" ]][[ "all" ]],
+                                                rna = rnas )
+    
+    hybFiles[[ rnas ]][[ "host"]] = swapHybs3(hybList = hybFiles[[ "all" ]][[ "all" ]],
+                                              rna = rnas )
+    print(" *** RNA of interest Alone ***")
+    hybFiles[[ rnas ]][[ "noHost"]] = swapHybs2(hybList = hybFiles[[ "all" ]][[ "all" ]],
+                                                rna = rnas )
+    
+    
+    
     ###########################################################
     # Make matrices of the specific RNA without host
     ###########################################################
     print(" ***** Making Matrices ******")
-
+    
     matrixList = list()
-    c = 1
-    for(i in rnas){
-        rnaSize2 =   rnaSize[[i]]
-        print(i)
-        matrixList[[i]][[ "noHost" ]] = list()
-        matrixList[[i]][[ "noHost" ]] = getMatrices(hybFiles[[ i  ]][[ "noHost"]],
-                                                    i, rnaSize2)
-        names(matrixList[[i]][[ "noHost" ]]) = sampleNames
-
-        matrixList[[i]][[ "original" ]] = list()
-        matrixList[[i]][[ "original" ]] = getMatrices(hybFiles[[ i  ]][[ "original"]],
-                                                      i, rnaSize2)
-        names(matrixList[[i]][[ "original" ]]) = sampleNames
-        c = c +1
-    }
-
-
-
+    matrixList[[rnas]] = list()
+    rnaSize2 =   rnaSize
+    
+    matrixList[[rnas]][[ "noHost" ]] = list()
+    matrixList[[rnas]][[ "noHost" ]] = getMatrices(hybFiles[[ i  ]][[ "noHost"]],
+                                                   rnas, rnaSize2)
+    names(matrixList[[rnas]][[ "noHost" ]]) = sampleNames
+    
+    matrixList[[rnas]][[ "original" ]] = list()
+    matrixList[[rnas]][[ "original" ]] = getMatrices(hybFiles[[ i  ]][[ "original"]],
+                                                     rnas, rnaSize2)
+    names(matrixList[[rnas]][[ "original" ]]) = sampleNames
+    
+    
+    
+    
+    
     ###########################################################
     # Make object
     ###########################################################
@@ -250,10 +249,10 @@ comradesDataSet <- function(rnas,
                   matrixList = matrixList,
                   group = group,
                   sampleNames = sampleNames)
-
+    
     return(object)
-
-
+    
+    
 }
 
 

@@ -24,7 +24,7 @@ Imports:
     heatmap3,
     MASS,
     mixtools
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Collate: 
     'comradesOO.R'
     'comradesDataSet.R'

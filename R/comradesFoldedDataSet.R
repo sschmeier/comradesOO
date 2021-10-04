@@ -11,7 +11,8 @@ NULL
 setClass("comradesFoldedDataSet",
          contains = "comradesClusteredDataSet",
          slots = c(
-             clusterTableFolded = "data.frame"
+             clusterTableFolded = "data.frame",
+             interactionTable = "data.frame"
          ),
          prototype = list(
 
@@ -85,13 +86,12 @@ comradesFoldedDataSet <- function(cdsObject,
     #make combined tables for the samples
     clusterPositionsListTrimmedSarsCombined = list()
     for(j in group(cdsObject)[["s"]]){
-
-        #  clusterPositionsListTrimmedSarsCombined[[j]]$sample =
         clusterPositionsListTrimmed[[j]]$sample = sampleTable(cdsObject)[j,"sampleName"]
         clusterPositionsListTrimmedSarsCombined = rbind.data.frame(clusterPositionsListTrimmedSarsCombined,
                                                                    clusterPositionsListTrimmed[[j]],
                                                                    stringsAsFactors = F)
     }
+    
     ##############################
     # add the sequences to the table
     # seq1 = left seq2 = right, type = short or long (range interaction)
@@ -166,7 +166,8 @@ comradesFoldedDataSet <- function(cdsObject,
                   sampleNames = sampleNames(cdsObject),
                   clusterTableList = clusterTableList(cdsObject),
                   clusterGrangesList = clusterGrangesList(cdsObject),
-                  clusterTableFolded = clusterPositionsListTrimmedSarsCombinedWithStructures
+                  clusterTableFolded = clusterPositionsListTrimmedSarsCombinedWithStructures,
+                  interactionTable = tableAll
     )
 
     return(object)

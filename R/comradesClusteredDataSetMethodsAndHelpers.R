@@ -224,7 +224,7 @@ setMethod("trimClusters",
                           x1 = x
                           # find rhe mean + and - one sd and
                           # make a GRanges with this value
-                          removal =  mean(x) + sd(x)*1
+                          removal =  mean(x) + sd(x)*1.5
                           included  = GRanges(seqnames=rna,
                                               IRanges(
                                                   start=rep(min, length(clusterrange)),

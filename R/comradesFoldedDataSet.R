@@ -12,7 +12,8 @@ setClass("comradesFoldedDataSet",
          contains = "comradesClusteredDataSet",
          slots = c(
              clusterTableFolded = "data.frame",
-             interactionTable = "data.frame"
+             interactionTable = "data.frame",
+             viennaStructures = "character"
          ),
          prototype = list(
 
@@ -150,7 +151,137 @@ comradesFoldedDataSet <- function(cdsObject,
     clusterPositionsListTrimmedSarsCombinedWithStructures = clusterPositionsListTrimmedSarsCombined
 
 
+    
+    
+    ############################################################################
+    # Fold the whole molecule
+    ############################################################################
+    
+    # get interactions
+    interactionTable = tableAll
+    
+    
+    
+    # Just get the columns needed
+    interactionTable = interactionTable[,c(1,2,3,4,9,10,11,12)]
+    
+    
+    # Aggregate the table to combine interactions by sample 
+    interactionTable2 = aggregate(interactionTable$evidence, by = list(interactionTable$p1,  interactionTable$p2, interactionTable$nt1 ,
+                                                                       interactionTable$nt2, interactionTable$sample), FUN = sum)
+    colnames(interactionTable2) = c("p1","p2","nt1","nt2","sample","evidence")
+    interactionTable3 = aggregate(interactionTable2$sample, by = list(interactionTable2$p1,  interactionTable2$p2, interactionTable2$nt1 ,
+                                                                      interactionTable2$nt2), FUN = paste, collapse=",")
+    interactionTable4 = aggregate(interactionTable2$evidence, by = list(interactionTable2$p1,  interactionTable2$p2, interactionTable2$nt1 ,
+                                                                        interactionTable2$nt2), FUN = paste, collapse=",")
+    
+    interactionTable5 = aggregate(interactionTable2$evidence, by = list(interactionTable2$p1,  interactionTable2$p2, interactionTable2$nt1 ,
+                                                                        interactionTable2$nt2), FUN = sum)
+    
+    # Check if the interactions agree with canonical sites
+    
+    #interactionTable3$cannonical = 0
+    
+#    for(i in 1:nrow(interactionTable3)){
+#        if(paste(interactionTable3$Group.1[i], interactionTable3$Group.2[i]) %in%
+#           paste(known18S$V1, known18S$V2)){
+#            interactionTable3$cannonical[i] = 1
+#    }
+#        }
+    
+#    unique(interactionTable3$cannonical)
+#    nrow(known18S)
+    
+    interactionTable3$evidence = interactionTable5$x
+    interactionTable3$evidence2 = interactionTable4$x
+    
+    colnames(interactionTable3) = c("p1", "p2", "nt1", "nt2", "samples" ,"evidence", "evidence2")
+    
+    
+    # SUBSET the interaction based on thei evidence and appearing in all the samples 
+    
+    interactionTable3_sub = interactionTable3[interactionTable3$evidence > 1000 &
+                                                  interactionTable3$samples == "s1,s2,s3"   , ]
+    
+    unique(interactionTable3_sub$samples)
 
+    
+    
+    
+    head(interactionTable3_sub)
+    nrow(interactionTable3_sub)
+    
+    # find the probability of each constraint
+    normalized_evidence = interactionTable3_sub$evidence / sum(interactionTable3_sub$evidence)
+    
+
+    
+    # this is how you sample the "bag"
+    #sample(1:nrow(interactionTable3_sub),1,prob = normalized_evidence)
+    
+    # run the structures 
+    prevConstraints = 0
+    
+    viennas = c()
+    
+    for(j in 1:100){
+        goodvienna = ""
+        for(i in 1:10) {
+            # pull constraints and re pick if constraint breaks the structure
+            constraints = c(prevConstraints, sample(1:nrow(interactionTable3_sub),1,prob = normalized_evidence) )
+            prevConstraints = constraints
+            #write contraint to file
+            
+            constraints = unique(constraints)
+            
+            constraintFile = interactionTable3_sub[constraints, c("p1","p2")]
+            #F i j k
+            constraintFile$F = "F"
+            constraintFile$k = 1
+            constraintFile = constraintFile[,c(3,1,2,4)]
+            print(constraintFile)
+            write.table(constraintFile, file = "constraints.txt", quote = F, row.names = F, col.names = F)
+            
+            
+            
+            
+            
+            table = data.frame(stringsAsFactors = FALSE)
+            command = paste("echo \">",rna,"\n",paste(rnaRefs[[1]]$NR_003286.4, collapse = ""),"\" | RNAfold  --noPS --constraint=constraints.txt ", sep = "")
+            x = system(command,intern = T)
+            
+            if(!(grepl("\\(\\(", x[3])) ){
+                prevConstraints = prevConstraints[-1]
+                next;
+            }else{
+                goodvienna = x[3]
+            }
+            print(prevConstraints)
+            print(x)
+            
+            
+            
+        }
+        viennas = c(viennas,sub("\\s.*","",goodvienna))
+        prevConstraints = 0
+    }
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     ###########################################################
     # Make object
     ###########################################################
@@ -167,7 +298,8 @@ comradesFoldedDataSet <- function(cdsObject,
                   clusterTableList = clusterTableList(cdsObject),
                   clusterGrangesList = clusterGrangesList(cdsObject),
                   clusterTableFolded = clusterPositionsListTrimmedSarsCombinedWithStructures,
-                  interactionTable = tableAll
+                  interactionTable = tableAll,
+                  viennaStructures = viennas
     )
 
     return(object)

@@ -141,7 +141,7 @@ detailed explanation of the class with slots etc
 
 ## comradesClusteredDataSet
 
-detailed explanation of the class with slots etc
+detailed explanation of the ccclass with slots etc
 
 ## comradesFoldedDataSet
 

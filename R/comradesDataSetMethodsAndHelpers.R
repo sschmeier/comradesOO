@@ -220,8 +220,108 @@ setMethod("topTranscripts",
                            hybFiles(cds)[["all"]][["all"]][[i]]$V10)
               }
               x = table(vect)[order(table(vect), decreasing = T)]
-              x[1:ntop]
-          })
+              
+              
+              c = group(cds)[["c"]]
+              vect = c()
+              for(i in c){
+                  vect = c(vect, 
+                           hybFiles(cds)[["all"]][["all"]][[i]]$V4,
+               
+                                       hybFiles(cds)[["all"]][["all"]][[i]]$V10)
+              }
+              y = table(vect)[order(table(vect), decreasing = T)]
+              
+
+              y = y[names(x[1:ntop])]
+              x = x[1:ntop]
+              
+              x2 = as.data.frame(x)
+              x2$control = y
+              colnames(x2) = c("RNA", "Samples", "Control")
+              x2$enrichment = x2$Samples /  x2$Control
+              
+              
+              for(i in names(hybFiles(cds)[["all"]][["all"]])){
+                  t = c(hybFiles(cds)[["all"]][["all"]][[i]]$V4,
+                        hybFiles(cds)[["all"]][["all"]][[i]]$V10)
+                  t = table(t)
+
+                  t = t[names(x[1:ntop])]
+                  x2[,i] = t
+              }
+              x2 = x2[,c(1,5:ncol(x2),2,3,4 )]
+              x2
+})
+
+
+
+
+
+#' topInteractions 
+#'
+#' This method prints the top transcripts that have the most duplexes 
+#' assigned
+#'
+#' @param cds a \code{comradesClusteredDataSet} object
+#' 
+#' 
+#' @return Returns a \code{comradesClusteredDataSet} object
+#' 
+#' The 3 attributes matrixList, clusterTableList and clusterGrangesList 
+#' will gain the \code{types} "superClusters" and "trimmedClusters"
+#' 
+#' @export
+#' 
+setGeneric("topInteractions",
+           function(cds,ntop=10, ...) standardGeneric("topInteractions" ) )
+
+setMethod("topInteractions",
+          "comradesDataSet",
+          function(cds,ntop= 10)  {
+              c = group(cds)[["s"]]
+              vect = c()
+              for(i in c){
+                  vect = c(vect, 
+                           paste(hybFiles(cds)[["all"]][["all"]][[i]]$V4,
+                           hybFiles(cds)[["all"]][["all"]][[i]]$V10, sep = "::"))
+              }
+              x = table(vect)[order(table(vect), decreasing = T)]
+              
+              
+              c = group(cds)[["c"]]
+              vect = c()
+              for(i in c){
+                  vect = c(vect, 
+                           paste(hybFiles(cds)[["all"]][["all"]][[i]]$V4,
+                                 hybFiles(cds)[["all"]][["all"]][[i]]$V10, sep = "::"))
+              }
+              y = table(vect)[order(table(vect), decreasing = T)]
+              
+              
+              y = y[names(x[1:ntop])]
+              x = x[1:ntop]
+              
+              x2 = as.data.frame(x)
+              x2$control = y
+              colnames(x2) = c("RNA", "Samples", "Control")
+              x2$enrichment = x2$Samples /  x2$Control
+              
+              
+              for(i in names(hybFiles(cds)[["all"]][["all"]])){
+                  t =   paste(hybFiles(cds)[["all"]][["all"]][[i]]$V4,
+                              hybFiles(cds)[["all"]][["all"]][[i]]$V10, sep = "::")
+                  t = table(t)
+                  
+                  t = t[names(x[1:ntop])]
+                  x2[,i] = t
+              }
+              x2 = x2[,c(1,5:ncol(x2),2,3,4 )]
+              x2
+              
+})
+
+
 
 ################################################################################
 # Swapping and subsetting

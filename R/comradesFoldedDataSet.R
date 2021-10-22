@@ -126,7 +126,7 @@ comradesFoldedDataSet <- function(cdsObject,
                                          seqs = clusterPositionsListTrimmedSarsCombined[i,"seq1"],
                                          fasta = rnaRefs)
         }else{
-            table = findBasePairsRNAcoFold(startPos1 = clusterPositionsListTrimmedSarsCombined[i,"ls"],
+            table = findBasePairsRNAcoFold2(startPos1 = clusterPositionsListTrimmedSarsCombined[i,"ls"],
                                            endPos1 = clusterPositionsListTrimmedSarsCombined[i,"le"],
                                            seq1 = clusterPositionsListTrimmedSarsCombined[i,"seq1"],
                                            startPos2 = clusterPositionsListTrimmedSarsCombined[i,"rs"],

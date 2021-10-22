@@ -384,6 +384,128 @@ setMethod("topInteracters",
           })
 
 
+
+#' getInteractions
+#'
+#' This method prints the top transcripts that have the most duplexes 
+#' assigned
+#'
+#' @param cds a \code{comradesClusteredDataSet} object
+#' 
+#' 
+#' @return Returns a \code{comradesClusteredDataSet} object
+#' 
+#' The 3 attributes matrixList, clusterTableList and clusterGrangesList 
+#' will gain the \code{types} "superClusters" and "trimmedClusters"
+#' 
+#' @export
+#' 
+setGeneric("getInteractions",
+           function(cds,interactor, ...) standardGeneric("getInteractions" ) )
+
+setMethod("getInteractions",
+          "comradesDataSet",
+          function(cds,interactor)  {
+            
+              seq2 <- Vectorize(seq.default, vectorize.args = c("from", "to"))
+              
+              # subset the hyb files based on the interacter of choice 
+              table = data.frame()
+              for(i in names(hybFiles(cds)[[rnas(cds)]][["host"]])){
+                    x = hybFiles(cds)[[rnas(cds)]][["host"]][[i]]
+                    x = x[x$V10 == interactor,]
+                    if(nrow(x) == 0 ){ 
+                        v = as.data.frame(0)
+                        v$rna = interactor
+                        v$sample = i 
+                        colnames(v) = c("Position", "rna", "sample")
+                        table = rbind.data.frame(table,v )
+                    }else {
+                        starts = x$V7
+                        ends = x$V8
+                        v = as.data.frame(unlist(seq2(from = starts, to = ends)))
+                        v$rna = interactor
+                        v$sample = i 
+                        colnames(v) = c("Position", "rna", "sample")
+                        table = rbind.data.frame(table,v )
+                    }
+                    
+              }
+              
+              colnames(table) = c("Position", "rna", "sample")
+              table = aggregate(table$Position, 
+                                by = list(table$rna, 
+                                          table$sample, 
+                                          table$Position), FUN = length)
+              colnames(table) = c( "rna", "sample", "Position", "depth")
+              table
+          })
+
+
+
+
+#' getReverseInteractions
+#'
+#' This method prints the top transcripts that have the most duplexes 
+#' assigned
+#'
+#' @param cds a \code{comradesClusteredDataSet} object
+#' 
+#' 
+#' @return Returns a \code{comradesClusteredDataSet} object
+#' 
+#' The 3 attributes matrixList, clusterTableList and clusterGrangesList 
+#' will gain the \code{types} "superClusters" and "trimmedClusters"
+#' 
+#' @export
+#' 
+setGeneric("getReverseInteractions",
+           function(cds,interactor, ...) standardGeneric("getReverseInteractions" ) )
+
+setMethod("getReverseInteractions",
+          "comradesDataSet",
+          function(cds,interactor)  {
+              
+              seq2 <- Vectorize(seq.default, vectorize.args = c("from", "to"))
+              
+              # subset the hyb files based on the interacter of choice 
+              table = data.frame()
+              for(i in names(hybFiles(cds)[[rnas(cds)]][["host"]])){
+                  x = hybFiles(cds)[[rnas(cds)]][["host"]][[i]]
+                  x = x[x$V10 == interactor,]
+                  if(nrow(x) == 0 ){ 
+                      v = as.data.frame(0)
+                      v$rna = interactor
+                      v$sample = i 
+                      colnames(v) = c("Position", "rna", "sample")
+                      table = rbind.data.frame(table,v )
+                  }else {
+                      starts = x$V11
+                      ends = x$V12
+                      v = as.data.frame(unlist(seq2(from = starts, to = ends)))
+                      v$rna = interactor
+                      v$sample = i 
+                      colnames(v) = c("Position", "rna", "sample")
+                      table = rbind.data.frame(table,v )
+                  }
+                  
+              }
+              
+              colnames(table) = c("Position", "rna", "sample")
+              table = aggregate(table$Position, 
+                                by = list(table$rna, 
+                                          table$sample, 
+                                          table$Position), FUN = length)
+              colnames(table) = c( "rna", "sample", "Position", "depth")
+              table
+          })
+
+
+
+
+
+
+
 ################################################################################
 # Swapping and subsetting
 ################################################################################
